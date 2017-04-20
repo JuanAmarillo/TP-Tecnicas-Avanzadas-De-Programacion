@@ -1,16 +1,27 @@
-=begin
-class Module
-  def case_class(name, superclass = ::Object, &blk)
-    const_set(name, Class.new(superclass, &blk))
+
+class Case_class
+  def hola
+    1
   end
 end
 
-def case_class(name, superclass = ::Object, &blk)
-  self.class.case_class(name, superclass, &blk)
+
+class Class
+  def < aClass
+    if(aClass== Case_class)
+      raise 'no se puede heredar de una case class'
+    else
+      super
+    end
+  end
 end
 
-=end
+module Entorno
 
-class Case_class
-
+  def case_class (nombre,&block)
+    Object.const_set(nombre, Case_class.new(&block))
+    # nombre.to_sym=Case_class.new(&block)
+  end
 end
+
+include Entorno
