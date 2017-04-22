@@ -3,12 +3,8 @@ require_relative '../src/inmutabilidad'
 
 describe 'test' do
 
-
   it 'es una clase?' do
-
-
-    expect(Class.<Fixnum).to eq('saraza')
-
+    expect(Case_class.class).to eq(Class)
   end
   it 'una clase no puede heredar de una case clase' do
 
