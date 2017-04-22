@@ -1,14 +1,26 @@
 
+# attr_accessor se comporta como attr_reader
+# freeze a nuevas instancias
+
 class Case_class
-  def hola
-    1
+
+  def initialize
+    self.freeze
+  end
+
+  def attr_accessor(sarlompa)
+    attr_reader(sarlompa)
+  end
+
+  def ==
+    if
   end
 end
 
 
-class Class
+class Class < Module
   def < aClass
-    if(aClass== Case_class)
+    if aClass== Case_class
       raise 'no se puede heredar de una case class'
     else
       super
