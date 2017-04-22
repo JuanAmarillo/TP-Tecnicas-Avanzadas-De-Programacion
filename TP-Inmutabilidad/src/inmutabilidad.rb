@@ -12,9 +12,6 @@ class Case_class
     attr_reader(sarlompa)
   end
 
-  def ==
-    if
-  end
 end
 
 
