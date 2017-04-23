@@ -17,4 +17,9 @@ require 'rspec'
 
     end
 
+    it 'Funciona ahora la sintaxis bien?' do
+      case_class X do end
+      expect(X.class).to eq(Case_class)
+    end
+
   end

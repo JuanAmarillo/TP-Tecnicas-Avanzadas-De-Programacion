@@ -31,6 +31,14 @@ module Entorno
     Object.const_set(nombre, Case_class.new(&block))
     # nombre.to_sym=Case_class.new(&block)
   end
+
+  class ::Object
+    def self.const_missing (const)
+      const
+     end
+  end
+
 end
 
 include Entorno
+
