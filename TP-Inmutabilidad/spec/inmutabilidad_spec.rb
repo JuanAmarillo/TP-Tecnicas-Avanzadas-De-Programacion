@@ -22,4 +22,9 @@ require 'rspec'
       expect(X.class).to eq(Case_class)
     end
 
+    it 'Funcioan el new' do
+      case_class X do end
+      x = X.new
+      expect(x.Class).to eq(X)
+    end
   end
