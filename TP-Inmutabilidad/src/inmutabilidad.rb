@@ -48,11 +48,8 @@ end
 
 module Entorno
 
-  def case_class (nombre,&block)
-    #Object.const_set(nombre, Class.new(&block))
-    nombre=Class.new(&block)
-    nombre.include(Comportamiento_case_class)
-    # nombre.to_sym=Case_class.new(&block)
+  def case_class(nombre, &block)
+    Object.const_set(nombre, (Class.new(&block).include Comportamiento_case_class))
   end
 
   class ::Object
