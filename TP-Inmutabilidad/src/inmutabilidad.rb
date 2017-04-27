@@ -47,9 +47,33 @@ end
 
 
 module Entorno
+  class BuilderCase_Class
+    def initialize(parent)
+      @case_class = Class.new(parent).include Comportamiento_case_class
+    end
 
-  def case_class(nombre, &block)
-    Object.const_set(nombre, (Class.new(&block).include Comportamiento_case_class))
+    def set_comportamiento(&block)
+      @case_class.class_eval &block
+
+    end
+
+    def case_class
+      obj = @case_class
+    end
+
+  end
+  
+  def case_class(nombre, parent = Object, &block)
+
+    x = BuilderCase_Class.new(parent)
+    x.set_comportamiento(&block)
+
+    Object.const_set(nombre, x.case_class)
+
+    #(Object.const_set(nombre, (Class.new(parent).include Comportamiento_case_class.class_eval)))
+
+
+
   end
 
   class ::Object
