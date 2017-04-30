@@ -35,9 +35,9 @@ module Comportamiento_case_class
     attr_reader(sarlompa)
   end
 
- # def ==(otro)
- #   self.class == otro.class && self.instance_variables == otro.instance_variables && (self.instance_variables).map {|n| self.instance_variable_get(n)} == (otro.instance_variables).map {|n| otro.instance_variable_get(n)}
- # end
+  # def ==(otro)
+  #   self.class == otro.class && self.instance_variables == otro.instance_variables && (self.instance_variables).map {|n| self.instance_variable_get(n)} == (otro.instance_variables).map {|n| otro.instance_variable_get(n)}
+  # end
 
   def prueba
     2
@@ -45,34 +45,39 @@ module Comportamiento_case_class
 
 end
 
+module Entorno
 
-class Builder_case_class
-  attr_accessor :nombre, :parent
+  class Builder_case_class
+    attr_accessor :nombre, :parent
 
-  def initialize(nombreCC)
-    @nombre = nombreCC
-    @parent = Object
+    def initialize(nombreCC)
+      @nombre = nombreCC
+      @parent = Object
+    end
+
+    def < parentcc
+      @parent = parentcc
+      self
+    end
+
+    def new_case_class (&block)
+      Object.const_set(@nombre, (Class.new(@parent, &block).include Comportamiento_case_class))
+    end
+
   end
 
-  def < parentcc
-    @parent = parentcc
-    self
+  class ::Object
+    def self.const_missing (nombre)
+      nombre=Builder_case_class.new(nombre)
+    end
   end
 
-  def new_case_class (&block)
-    Object.const_set(@nombre, (Class.new(@parent, &block).include Comportamiento_case_class))
+  def case_class (builder, &block)
+    builder.new_case_class(&block)
   end
 
-end
 
-class ::Object
-  def self.const_missing (nombre)
-    Builder_case_class.new(nombre)
-  end
-end
 
-def case_class (builder, &block)
-  builder.new_case_class(&block)
 end
 
 include Entorno
