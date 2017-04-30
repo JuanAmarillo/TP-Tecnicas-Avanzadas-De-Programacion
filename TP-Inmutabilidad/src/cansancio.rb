@@ -1,4 +1,13 @@
 module Comportamiento_case_class
+  def initialize(*args)
+  if(args.length == (self.instance_variables).length)
+      (self.instance_variables).each do |i|
+        self.instance_variable_set(self.instance_variables[i], args[i])
+      end
+    else "Mal"
+  end
+  end
+
   def prueba
     "El modulo esta bien"
   end
@@ -35,6 +44,19 @@ module Entorno
     builder.new_case_class(&block)
   end
 
+
+
 end
 
 include Entorno
+
+class ::Class
+  def initialize(*args)
+    if args.length == (self.instance_variables).length
+      (self.instance_variables).each do |i|
+        self.instance_variable_set(self.instance_variables[i], args[i])
+      end
+    else "Mal"
+    end
+  end
+end
