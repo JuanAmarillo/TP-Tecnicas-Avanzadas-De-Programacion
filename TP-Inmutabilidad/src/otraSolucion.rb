@@ -33,10 +33,6 @@ module Entorno
     def self.const_missing (const)
       BuilderCase_Class.new(const)
     end
-
-    def < (clase)
-
-    end
   end
 
 end
