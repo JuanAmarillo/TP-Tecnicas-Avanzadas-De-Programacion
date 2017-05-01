@@ -5,17 +5,13 @@ module Comportamiento_case_class
     self.freeze
   end
 
-  def attr_accessor(sarlompa)
-    attr_reader(sarlompa)
-  end
-
 end
 
 #y aca los de clase
 module OtroModulo
 
   def inherited(subclass)
-      Object.send(:remove_const, subclass.to_s)
+      Object.send(:remove_const, subclass.name)
       raise "no se puede Heredar de una case_class"
   end
 
