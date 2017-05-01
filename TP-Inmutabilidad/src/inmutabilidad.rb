@@ -1,4 +1,4 @@
-
+#aca van los metodos de instancia
 module Comportamiento_case_class
 
   def initialize
@@ -8,6 +8,11 @@ module Comportamiento_case_class
   def attr_accessor(sarlompa)
     attr_reader(sarlompa)
   end
+
+end
+
+#y aca los de clase
+module OtroModulo
 
 end
 
@@ -46,7 +51,7 @@ module Entorno
     end
 
     def case_class (builder, &block)
-      builder.new_case_class(&block)
+      builder.new_case_class(&block).extend OtroModulo
     end
 
   end
