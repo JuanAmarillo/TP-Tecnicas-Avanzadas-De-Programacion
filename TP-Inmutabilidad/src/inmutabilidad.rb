@@ -14,6 +14,11 @@ end
 #y aca los de clase
 module OtroModulo
 
+  def inherited(subclass)
+      Object.send(:remove_const, subclass.to_s)
+      raise "no se puede Heredar de una case_class"
+  end
+
 end
 
 module Entorno
@@ -42,13 +47,6 @@ module Entorno
 
     def self.const_missing (nombre)
       Builder_case_class.new(nombre)
-    end
-
-    def self.inherited(subclass)
-      if(self.include? Comportamiento_case_class)
-        Object.send(:remove_const, subclass.to_s)
-        raise "no se puede Heredar de una case_class"
-      end
     end
 
     def case_class (builder, &block)
