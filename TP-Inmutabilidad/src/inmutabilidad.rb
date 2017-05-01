@@ -46,6 +46,7 @@ module Entorno
 
     def self.inherited(subclass)
       if(self.include? Comportamiento_case_class)
+        Object.send(:remove_const, subclass.to_s)
         raise "no se puede Heredar de una case_class"
       end
     end
@@ -63,5 +64,8 @@ end
 include Entorno
 
 case_class X do
+  def m1
+    'm1'
+  end
 end
 
