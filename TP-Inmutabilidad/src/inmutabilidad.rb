@@ -21,6 +21,7 @@ module Comportamiento_de_clase_case_class
     end
   end
 
+
 end
 
 #y aca los de clase
@@ -33,6 +34,17 @@ module Comportamiento_de_instancias_case_class
     self.freeze
   end
 
+  def ==(otro)
+    self.class == otro.class && self.instance_variables == otro.instance_variables && (self.instance_variables).map {|n| self.instance_variable_get(n)} == (otro.instance_variables).map {|n| otro.instance_variable_get(n)}
+  end
+
+  def to_s#Esto esta como el orto mal
+    "#{self.class}#{(self.instance_variables).map {|i| self.instance_variable_get(i)}}"
+  end
+
+  def hash
+    7 + ((self.instance_variables).map {|i| self.instance_variable_get(i).hash}).inject(0, :+)
+  end
 end
 
 module Entorno
@@ -89,4 +101,15 @@ case_class X do
     @a = 2
   end
 end
+
+case_class Y do
+  attr_accessor :a, :b
+  def m1
+    'm1'
+  end
+  def trampa
+    @a = 2
+  end
+end
+
 
