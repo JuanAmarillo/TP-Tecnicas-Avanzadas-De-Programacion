@@ -14,7 +14,7 @@ module Comportamiento_de_clase_case_class
   end
 
   def new(*args)
-    if(args.length == (self.instance_variables).length)
+    if args.length == (self.instance_variables).length
       super(self.instance_variables.zip args)
     else
       raise "esto se va a descontrolaaaaaaarrrrrrr"
@@ -38,8 +38,8 @@ module Comportamiento_de_instancias_case_class
     self.class == otro.class && self.instance_variables == otro.instance_variables && (self.instance_variables).map {|n| self.instance_variable_get(n)} == (otro.instance_variables).map {|n| otro.instance_variable_get(n)}
   end
 
-  def to_s#Esto esta como el orto mal
-    "#{self.class}#{(self.instance_variables).map {|i| self.instance_variable_get(i)}}"
+  def to_s
+    "#{self.class}(#{self.instance_variables.map {|i| self.instance_variable_get(i)}.join(", ")})"
   end
 
   def hash
@@ -63,7 +63,7 @@ module Entorno
       self
     end
 
-    def new_case_class#(&block)
+    def new_case_class
       Object.const_set(@nombre, (Class.new(@parent).extend Comportamiento_de_clase_case_class))
     end
 
