@@ -33,9 +33,10 @@ module Entorno
       self
     end
 
-    def new_case_class (&block)
-      Object.const_set(@nombre, (Class.new(@parent, &block).include Comportamiento_case_class))
+    def new_case_class#(&block)
+      Object.const_set(@nombre, (Class.new(@parent).extend Comportamiento_case_class))
     end
+
 
   end
 
@@ -46,7 +47,8 @@ module Entorno
     end
 
     def case_class (builder, &block)
-      builder.new_case_class(&block).extend OtroModulo
+      una_case_class = builder.new_case_class.include OtroModulo
+      una_case_class.class_eval(&block)
     end
 
   end
