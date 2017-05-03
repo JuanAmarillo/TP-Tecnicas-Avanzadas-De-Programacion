@@ -46,17 +46,33 @@ module Comportamiento_de_instancias_case_class
 
   def aplicar_a_variables(&block)
     self.instance_variables.collect do |var|
-      if(block_given?)
-        self.instance_variable_get(var).instance_eval &block
-      else
-        self.instance_variable_get var
-      end
+      aplicar_a_variable(var,&block)
     end
   end
 
+  def aplicar_a_variable(var,&block)
+    if(block_given?)
+      self.instance_variable_get(var).instance_eval &block
+    else
+      self.instance_variable_get var
+    end
+  end
 
-  def copy
-    self.class.new(*aplicar_a_variables)
+  def copy(*lambdas)
+    self.class.new(*aplicar_lambdas_a_parametros(lambdas))
+  end
+
+  def aplicar_lambdas_a_parametros(lambdas)
+    parametros_con_lambdas(lambdas).collect do |var,lambda|
+       aplicar_a_variable(var,&lambda)
+    end
+  end
+
+  def parametros_con_lambdas(lambdas)
+    self.instance_variables.collect do |var|
+      [var, lambdas.find_all do |lambda| "#{var}" == "@#{lambda.parameters.flatten.last}" end .last]
+    end
+
   end
 
 end
