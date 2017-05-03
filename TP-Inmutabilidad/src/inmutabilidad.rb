@@ -1,4 +1,3 @@
-#aca van los metodos de instancia
 module Comportamiento_de_clase_case_class
 
   def inherited(subclass)
@@ -17,14 +16,12 @@ module Comportamiento_de_clase_case_class
     if args.length == (self.instance_variables).length
       super(self.instance_variables.zip args)
     else
-      raise "esto se va a descontrolaaaaaaarrrrrrr"
+      raise "wrong number of arguments (given #{args.length}, expected #{(self.instance_variables).length})"
     end
   end
 
-
 end
 
-#y aca los de clase
 module Comportamiento_de_instancias_case_class
 
   def initialize(args)
@@ -34,17 +31,24 @@ module Comportamiento_de_instancias_case_class
     self.freeze
   end
 
-  def ==(otro)
-    self.class == otro.class && self.instance_variables == otro.instance_variables && (self.instance_variables).map {|n| self.instance_variable_get(n)} == (otro.instance_variables).map {|n| otro.instance_variable_get(n)}
+  def to_s
+    self.class.name + "(" + (aplicar_a_variables do |var| "#{var}" end).join(", ") + ")"
   end
 
-  def to_s
-    "#{self.class}(#{self.instance_variables.map {|i| self.instance_variable_get(i)}.join(", ")})"
+  def ==(instancia)
+    self.to_s == instancia.to_s
+
   end
 
   def hash
-    7 + ((self.instance_variables).map {|i| self.instance_variable_get(i).hash}).inject(0, :+)
+    7 + (aplicar_a_variables do |var| var.hash end).inject(0,:+)
   end
+
+  def aplicar_a_variables(&block)
+    self.instance_variables
+        .collect do |var| block.call(self.instance_variable_get(var)) end
+  end
+
 end
 
 module Entorno
@@ -101,6 +105,7 @@ case_class X do
     @a = 2
   end
 end
+
 
 case_class Y do
   attr_accessor :a, :b
