@@ -45,8 +45,18 @@ module Comportamiento_de_instancias_case_class
   end
 
   def aplicar_a_variables(&block)
-    self.instance_variables
-        .collect do |var| block.call(self.instance_variable_get(var)) end
+    self.instance_variables.collect do |var|
+      if(block_given?)
+        self.instance_variable_get(var).instance_eval &block
+      else
+        self.instance_variable_get var
+      end
+    end
+  end
+
+
+  def copy
+    self.class.new(*aplicar_a_variables)
   end
 
 end
