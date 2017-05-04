@@ -47,11 +47,7 @@ module Comportamiento_de_instancias_case_class
 
   def aplicar_a_variables(&block)
     self.instance_variables.collect do |var|
-      if var.class == Object
-        var.to_s
-      else
         aplicar_a_variable(var,&block)
-      end
     end
   end
 
@@ -87,6 +83,13 @@ module Comportamiento_de_instancias_case_object
   def to_s
     self.name
   end
+
+  def aplicar_a_variables(&block)
+    self.instance_variables.collect do |var|
+        var.to_s
+    end
+  end
+
 end
 
 module Entorno
