@@ -110,10 +110,9 @@ module Entorno
     end
 
     def new_case_object
-      Object.const_set(@nombre, Object.new.extend(Comportamiento_de_instancias_case_object)).instance_eval do
-       def name
-         @nombre
-       end
+      a = @nombre
+      Object.const_set(@nombre, Object.new.extend(Comportamiento_de_instancias_case_object)).define_singleton_method(:name) do
+        "#{a}"
       end
       @nombre
     end
