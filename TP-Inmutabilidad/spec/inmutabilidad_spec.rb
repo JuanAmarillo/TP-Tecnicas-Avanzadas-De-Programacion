@@ -12,7 +12,8 @@ require 'rspec'
     end
 
     it 'una clase no puede heredar de una case clase' do
-      expect{class Sarlonga end
+      expect{class Sarlonga
+      end
       Sarlonga.<Case_class}.to raise_error('no se puede heredar de una case class')
 
     end
@@ -39,6 +40,31 @@ require 'rspec'
       alumno = Alumno("Jose", Cursando)
 
       expect(alumno.to_s).to eq("Alumno(Jose, Cursando)")
+    end
+
+    it 'el _ es una pija' do
+      _ = Object.new
+      _.instance_eval do
+        def ===(a)
+          true
+        end
       end
+
+      case_object Tobito do
+      end
+
+      valor = case Tobito
+                when _
+                  2
+              end
+
+      expect(valor).to eq(2)
+
+    end
+
+    it 'is_a' do
+
+
+    end
 
   end
