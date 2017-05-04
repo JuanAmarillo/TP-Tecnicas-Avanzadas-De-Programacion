@@ -27,4 +27,18 @@ require 'rspec'
       x = X.new
       expect(x.Class).to eq(X)
     end
+
+    it 'case_object' do
+      case_class Alumno do
+        attr_accessor :nombre, :estado
+      end
+
+      case_object Cursando do
+      end
+
+      alumno = Alumno("Jose", Cursando)
+
+      expect(alumno.to_s).to eq("Alumno(Jose, Cursando)")
+      end
+
   end
