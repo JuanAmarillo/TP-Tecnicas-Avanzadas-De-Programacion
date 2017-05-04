@@ -22,6 +22,7 @@ module Comportamiento_de_clase_case_class
 
 end
 
+
 module Comportamiento_de_instancias_case_class
 
   def initialize(args)
@@ -46,7 +47,11 @@ module Comportamiento_de_instancias_case_class
 
   def aplicar_a_variables(&block)
     self.instance_variables.collect do |var|
-      aplicar_a_variable(var,&block)
+      if var.class == Object
+        var
+      else
+        aplicar_a_variable(var,&block)
+      end
     end
   end
 
@@ -77,6 +82,13 @@ module Comportamiento_de_instancias_case_class
 
 end
 
+module Comportamiento_de_instancias_case_object
+  include Comportamiento_de_instancias_case_class
+  def to_s
+    self.name
+  end
+end
+
 module Entorno
 
   class Builder_case_class
@@ -98,7 +110,12 @@ module Entorno
     end
 
     def new_case_object
-      Object.const_set(@nombre, Object.new.extend(Comportamiento_de_instancias_case_class))
+      Object.const_set(@nombre, Object.new.extend(Comportamiento_de_instancias_case_object)).instance_eval do
+       def name
+         @nombre
+       end
+      end
+      @nombre
     end
 
 
@@ -123,8 +140,6 @@ module Entorno
     end
 
   end
-
-
 
 end
 
