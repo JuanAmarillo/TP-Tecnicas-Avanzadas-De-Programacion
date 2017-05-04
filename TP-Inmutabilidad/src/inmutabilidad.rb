@@ -97,6 +97,10 @@ module Entorno
       Object.const_set(@nombre, (Class.new(@parent).extend Comportamiento_de_clase_case_class))
     end
 
+    def new_case_object
+      Object.const_set(@nombre, Object.new.extend(Comportamiento_de_instancias_case_class))
+    end
+
 
   end
 
@@ -112,6 +116,10 @@ module Entorno
       Object.send(:define_method,una_case_class.name) do |*args|
         una_case_class.new(*args)
       end
+    end
+
+    def case_object (builder, &block)
+      builder.new_case_object.instance_eval(&block)
     end
 
   end
