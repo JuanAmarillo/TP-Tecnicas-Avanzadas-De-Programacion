@@ -92,6 +92,13 @@ module Comportamiento_de_instancias_case_object
 
 end
 
+module Comportamiento_de_instancias_is_a
+  include Comportamiento_de_instancias_case_object
+  def ===(otro)
+    otro.is_a?(self.clasesitaa)
+  end
+end
+
 module Entorno
 
   class Builder_case_class
@@ -143,6 +150,17 @@ module Entorno
 
   end
 
+  def is_a(clasesita)
+    @aaa = clasesita
+    Object.new.extend(Comportamiento_de_instancias_is_a).instance_eval do
+      def clasesitaa
+        @aaa
+      end
+      self
+  end
+
+end
+
 end
 
 include Entorno
@@ -167,5 +185,11 @@ case_class Y do
     @a = 2
   end
 end
+
+case_class Alumno do
+  attr_accessor :nombre, :estado
+end
+
+
 
 
