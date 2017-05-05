@@ -137,11 +137,22 @@ module Entorno
 
   end
 
-  def is_a clasesita
-   @@aaaa = clasesita
-    Object.new.extend(Comportamiento_de_instancias_case_object).instance_eval do
+  def is_a tipo
+   @@tipoVar = tipo
+    Object.new.instance_eval do
       def ===(otro)
-        otro.is_a?(@@aaaa)
+        otro.is_a?(@@tipoVar)
+      end
+      self
+    end
+  end
+
+  def has (atributo, valor)
+    @@atr=atributo
+    @@val=valor
+    Object.new.instance_eval do
+      def === otro
+        otro.instance_variable_get("@#{@@atr}") == @@val
       end
       self
     end
