@@ -64,17 +64,13 @@ module Comportamiento_de_instancias_case_class
   end
 
   def copy(*lambdas)
-    self.class.new(*aplicar_lambdas_a_parametros(lambdas))
+    self.class.new(*aplicar_a_variables(&lambda_correspondiente(lambdas)))
   end
 
-  def aplicar_lambdas_a_parametros(lambdas)
-    self.instance_variables.collect do |var|
-      aplicar_a_variable(var,&buscar_lambda_correspondiente(var, lambdas))
-    end
-  end
-
-  def buscar_lambda_correspondiente(var,lambdas)
-    lambdas.find do |lambda| "#{var}" == "@#{lambda.parameters.flatten.last}" end
+  def lambda_correspondiente(lambdas) proc{ |var|
+    lambda = lambdas.find do |lambda| "#{var}" == "@#{lambda.parameters.flatten.last}" end
+    aplicar_a_variable(var,&lambda)
+    }
   end
 
 end
