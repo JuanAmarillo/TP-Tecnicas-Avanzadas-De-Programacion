@@ -68,16 +68,13 @@ module Comportamiento_de_instancias_case_class
   end
 
   def aplicar_lambdas_a_parametros(lambdas)
-    parametros_con_lambdas(lambdas).collect do |var,lambda|
-       aplicar_a_variable(var,&lambda)
+    self.instance_variables.collect do |var|
+      aplicar_a_variable(var,&buscar_lambda_correspondiente(var, lambdas))
     end
   end
 
-  def parametros_con_lambdas(lambdas)
-    self.instance_variables.collect do |var|
-      [var, lambdas.find_all do |lambda| "#{var}" == "@#{lambda.parameters.flatten.last}" end .last]
-    end
-
+  def buscar_lambda_correspondiente(var,lambdas)
+    lambdas.find do |lambda| "#{var}" == "@#{lambda.parameters.flatten.last}" end
   end
 
 end
