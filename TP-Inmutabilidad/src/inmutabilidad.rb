@@ -33,7 +33,7 @@ module Comportamiento_de_instancias_case_class
   end
 
   def ===(otro)
-    self.==(otro)
+   self.==(otro)
   end
 
   def to_s
