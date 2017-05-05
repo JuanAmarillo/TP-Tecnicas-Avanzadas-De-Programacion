@@ -32,6 +32,10 @@ module Comportamiento_de_instancias_case_class
     self.freeze
   end
 
+  def ===(otro)
+    self.==(otro)
+  end
+
   def to_s
     self.class.name + "(" + (aplicar_a_variables do |var| "#{var}" end).join(", ") + ")"
   end
@@ -190,6 +194,13 @@ end
 case_object D do
   def m3
     'm3'
+  end
+end
+
+_ = Object.new
+_.instance_eval do
+  def ===(a)
+    true
   end
 end
 

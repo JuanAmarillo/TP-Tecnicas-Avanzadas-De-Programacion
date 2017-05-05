@@ -68,4 +68,15 @@ require 'rspec'
 
     end
 
+    it 'case con Alumno'do
+      alumno = Alumno("Jose", 9)
+      valor = case alumno
+                when Alumno("Jose", 9)
+                  2
+              end
+
+      expect(valor).to eq(2)
+    end
+
+
   end
