@@ -80,14 +80,9 @@ end
 
 module Comportamiento_de_instancias_case_object
   include Comportamiento_de_instancias_case_class
+
   def to_s
     self.name
-  end
-
-  def aplicar_a_variables(&block)
-    self.instance_variables.collect do |var|
-        var.to_s
-    end
   end
 
 end
@@ -120,11 +115,7 @@ module Entorno
     end
 
     def new_case_object
-      a = @nombre
-      Object.const_set(@nombre, Object.new.extend(Comportamiento_de_instancias_case_object)).define_singleton_method(:name) do
-        "#{a}"
-      end
-      @nombre
+      Object.const_set(@nombre, (Object.new.extend Comportamiento_de_instancias_case_object))
     end
 
 
@@ -145,7 +136,9 @@ module Entorno
     end
 
     def case_object (builder, &block)
-      builder.new_case_object.instance_eval(&block)
+      un_case_object = builder.new_case_object
+      un_case_object.instance_eval(&block)
+      un_case_object.define_singleton_method(:name) do "#{builder.nombre}" end
     end
 
   end
@@ -188,6 +181,12 @@ end
 
 case_class Alumno do
   attr_accessor :nombre, :estado
+end
+
+case_object D do
+  def m3
+    'm3'
+  end
 end
 
 
