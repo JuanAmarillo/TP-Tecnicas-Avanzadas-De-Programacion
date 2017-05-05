@@ -57,7 +57,7 @@ module Comportamiento_de_instancias_case_class
 
   def aplicar_a_variable(var,&block)
     if(block_given?)
-      self.instance_variable_get(var).instance_eval &block
+      self.instance_exec(var, &block)
     else
       self.instance_variable_get var
     end
