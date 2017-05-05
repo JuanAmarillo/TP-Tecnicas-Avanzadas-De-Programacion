@@ -63,8 +63,8 @@ require 'rspec'
     end
 
     it 'is_a' do
-      a = is_a(Array)
-      expect(a.clasesitaa).to eq(Array)
+      a = is_a(String)
+      expect(a.===("Holi")).to eq(true)
 
     end
 

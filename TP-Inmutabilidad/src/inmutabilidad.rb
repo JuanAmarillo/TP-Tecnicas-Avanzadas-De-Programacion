@@ -87,12 +87,6 @@ module Comportamiento_de_instancias_case_object
 
 end
 
-module Comportamiento_de_instancias_is_a
-  include Comportamiento_de_instancias_case_object
-  def ===(otro)
-    otro.is_a?(self.clasesitaa)
-  end
-end
 
 module Entorno
 
@@ -143,16 +137,15 @@ module Entorno
 
   end
 
-  def is_a(clasesita)
-    @aaa = clasesita
-    Object.new.extend(Comportamiento_de_instancias_is_a).instance_eval do
-      def clasesitaa
-        @aaa
+  def is_a clasesita
+   @@aaaa = clasesita
+    Object.new.extend(Comportamiento_de_instancias_case_object).instance_eval do
+      def ===(otro)
+        otro.is_a?(@@aaaa)
       end
       self
+    end
   end
-
-end
 
 end
 
