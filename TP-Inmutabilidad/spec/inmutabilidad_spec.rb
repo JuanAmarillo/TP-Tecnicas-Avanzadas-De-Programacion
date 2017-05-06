@@ -110,27 +110,25 @@ require 'rspec'
 
 
     it 'case con Alumno'do
-      _ = Object.new
-      _.instance_eval do
-        def ===(a)
-          true
-        end
+            
+     case_class Termino do
+       attr_accessor :nota
+     end
 
-        def ==(a)
-          true
-        end
-      end
-
-      alumno = Alumno("Jose", 9)
-
+      alumno = Alumno("Jose", Termino(9))
 
       valor = case alumno
-                when Alumno("Jose", _)
+                when Alumno("Jo", _)
                   2
+                when Alumno("Jose",Termino(8))
+                  3
+                when Alumno(_,has(:nota, 9))
+                  "todo piola"
               end
 
-      expect(valor).to eq(2)
-    end
+      expect(valor).to eq("todo piola")
+
+      end
 
 
   end
