@@ -70,7 +70,7 @@ require 'rspec'
       expect(alumno.to_s).to eq("Alumno2(Jose, Cursando2)")
     end
 
-    it 'el _ es una pija' do
+    it 'patron _' do
    
       case_object Tobito do
       end
@@ -84,7 +84,7 @@ require 'rspec'
 
     end
 
-    it 'is_a' do
+    it 'patron is_a' do
       alumno = Alumno("J",9)
 
       valor = case alumno
@@ -96,7 +96,7 @@ require 'rspec'
 
     end
 
-    it 'has' do
+    it 'patron has' do
       alumno = Alumno("J",9)
 
       valor = case alumno
