@@ -71,13 +71,7 @@ require 'rspec'
     end
 
     it 'el _ es una pija' do
-      _ = Object.new
-      _.instance_eval do
-        def ===(a)
-          true
-        end
-      end
-
+   
       case_object Tobito do
       end
 

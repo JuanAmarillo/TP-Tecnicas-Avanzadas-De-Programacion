@@ -159,6 +159,15 @@ module Entorno
     end
   end
 
+  def _
+  Object.new.instance_eval do
+    def ===(a)
+      true
+    end
+    self
+  end
+  end
+
 end
 
 include Entorno
