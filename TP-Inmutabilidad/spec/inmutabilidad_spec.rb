@@ -16,66 +16,44 @@ require 'rspec'
         end
 
         expect{class Holi < Lol
-        end}.to raise_error('no se puede heredar de una case class')
+        end}.to raise_error()
 
     end
 
-    it 'Constructor' do
+    it 'Instanciar una case_class con atributo' do
       case_class Sarlompa do
-        attr_accessor :Holi
+        attr_accessor :holi
       end
 
       expect(Sarlompa.new(1).class).to eq(Sarlompa)
     end
 
-    it 'Funcioansin el new' do
-      case_class Sarlompa do
-        attr_accessor :Holi
-      end
-
+    it 'Funcioan sin el new' do
       x = Sarlompa(1)
       expect(x.class).to eq(Sarlompa)
     end
 
     it 'Freeze' do
-      case_class Sarlompa do
-        attr_accessor :Holi
-      end
-
       x = Sarlompa(1)
-
       expect(x.frozen?).to eq(true)
     end
 
     it 'to_s' do
-      case_class Sarlompa do
-        attr_accessor :Holi
-      end
-
       x = Sarlompa(1)
-
       expect(x.to_s).to eq("Sarlompa(1)")
     end
 
     it '==' do
-      case_class Sarlompa do
-        attr_accessor :Holi
-      end
-
       x = Sarlompa(1)
       y = Sarlompa(2)
-
+      z = Sarlompa(1)
       expect(x == y).to eq(false)
+      expect(x == z).to eq(true)
     end
 
     it 'copy con lambda' do
-      case_class Sarlompa do
-        attr_accessor :holi
-      end
-
       x = Sarlompa(1)
       otro_x = x.copy -> (holi){holi + 1}
-
       expect(otro_x.holi).to eq(2)
     end
 
