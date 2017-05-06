@@ -139,25 +139,26 @@ module Entorno
   end
 
   def is_a tipo
-   @@tipoVar = tipo
-   triple_igual proc{|a_comparar| a_comparar.is_a?(@@tipoVar)}
+   triple_igual( proc{|a_comparar,tipo| a_comparar.is_a?(tipo)},tipo)
   end
 
   def has (atributo, valor)
-    @@atr=atributo
-    @@val=valor
-    triple_igual proc{|a_comparar| a_comparar.instance_variable_get("@#{@@atr}") == @@val}
+    tiene = proc{|a_comparar,atributo,valor|
+      a_comparar.instance_variable_get("@#{atributo}") == valor
+    }
+    triple_igual(tiene,atributo,valor)
   end
 
   def _
-    triple_igual  proc{true}
+    triple_igual proc{true}
   end
 
-  def triple_igual(block)
-    Object.new.instance_exec(block) do |block|
+  def triple_igual(block,*args)
+    Object.new.instance_exec(block,*args) do |block,*args|
       @block = block
+      *@args = *args
       def ===(a_comparar)
-        instance_exec(a_comparar,&@block)
+        instance_exec(a_comparar,*@args,&@block)
       end
       self
     end
