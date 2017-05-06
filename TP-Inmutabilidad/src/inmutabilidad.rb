@@ -32,10 +32,6 @@ module Comportamiento_de_instancias_case_class
     self.freeze
   end
 
-  def ===(otro)
-   self.==(otro)
-  end
-
   def to_s
     self.class.name + "(" + (aplicar_a_variables do |var| "#{var}" end).join(", ") + ")"
   end
@@ -75,6 +71,10 @@ module Comportamiento_de_instancias_case_class
 
   def buscar_lambda_correspondiente(var,lambdas)
     lambdas.find do |lambda| "#{var}" == "@#{lambda.parameters.flatten.last}" end
+  end
+
+  def ===(otra_instancia)
+    self.is_a?(otra_instancia.class) && aplicar_a_variables.zip(otra_instancia.aplicar_a_variables).all? {|varA,varB| varA === varB} 
   end
 
 end
