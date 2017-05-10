@@ -125,33 +125,31 @@ module Entorno
       un_case_object = builder.new_case_object
       un_case_object.instance_eval(&block)
       un_case_object.define_singleton_method(:to_s) do "#{builder.nombre}" end
+      un_case_object
     end
 
   end
 
   def is_a tipo
-   triple_igual( proc{|a_comparar,tipo| a_comparar.is_a?(tipo)},tipo)
+    Triple_igual.new(tipo) do |tipo| self.is_a?(tipo) end
   end
 
   def has (atributo, valor)
-    tiene = proc{|a_comparar,atributo,valor| a_comparar.instance_variable_get("@#{atributo}") == valor}
-    triple_igual(tiene,atributo,valor)
+    Triple_igual.new(atributo,valor) do |atributo,valor| self.instance_variable_get("@#{atributo}") == valor end
   end
 
   def _
-    triple_igual proc{true}
+    Triple_igual.new() do true end
   end
 
-  def triple_igual(block,*args)
-    Object.new.instance_exec(block,*args) do |block,*args|
-      @block = block
-      *@args = *args
-      def ===(a_comparar)
-        instance_exec(a_comparar,*@args,&@block)
+  class Triple_igual
+    def initialize(*args,&block)
+      self.define_singleton_method(:===) do |instancia_case|
+        instancia_case.instance_exec(*args,&block)
       end
-      self
     end
   end
+
 
 end
 

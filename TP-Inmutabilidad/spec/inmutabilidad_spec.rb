@@ -16,7 +16,7 @@ require 'rspec'
         end
 
         expect{class Holi < Lol
-        end}.to raise_error()
+        end}.to raise_error(ArgumentError)
 
     end
 
