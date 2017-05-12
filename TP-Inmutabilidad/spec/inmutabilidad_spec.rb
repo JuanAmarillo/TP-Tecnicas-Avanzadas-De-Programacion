@@ -51,6 +51,17 @@ require 'rspec'
       expect(x == z).to eq(true)
     end
 
+    it 'to_s usa el metodo heredado' do
+      class Pajaro
+        def to_s
+          'hola'
+        end
+      end
+      case_class Pepita < Pajaro do end
+      x = Pepita()
+      expect(x.to_s).to eq('hola')
+    end
+
     it 'copy con lambda' do
       x = Sarlompa(1)
       otro_x = x.copy -> (holi){holi + 1}
