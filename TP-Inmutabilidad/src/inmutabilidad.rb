@@ -1,6 +1,7 @@
 module Comportamiento_de_clase_case_class
 
   def inherited(subclass)
+    Object.send(:remove_const, subclass.name)
     raise ('No se puede heredar de una case_class')
   end
 
