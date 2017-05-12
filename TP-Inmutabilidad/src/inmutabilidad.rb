@@ -1,7 +1,6 @@
 module Comportamiento_de_clase_case_class
 
   def inherited(subclass)
-    Object.send(:remove_const, subclass.name)
     raise ArgumentError
   end
 
@@ -32,16 +31,31 @@ module Comportamiento_de_instancias_case_class
   end
 
   def to_s
-    self.class.name + "(" + (aplicar_a_variables do |var| "#{var}" end).join(", ") + ")"
+    if super_tiene_el_metodo(:to_s)
+      super
+    else
+      self.class.name + "(" + (aplicar_a_variables do |var| "#{var}" end).join(", ") + ")"
+    end
   end
 
   def ==(instancia)
-    self.to_s == instancia.to_s
-
+    if super_tiene_el_metodo(:==)
+      super
+    else
+      self.to_s == instancia.to_s
+    end
   end
 
   def hash
-    7 + (aplicar_a_variables do |var| var.hash end).inject(0,:+)
+    if super_tiene_el_metodo(:hash)
+      super
+    else
+      7 + (aplicar_a_variables do |var| var.hash end).inject(0,:+)
+    end
+  end
+
+  def super_tiene_el_metodo(metodo)
+    self.class.superclass.instance_methods(false).include? metodo
   end
 
   def aplicar_a_variables(&block)
