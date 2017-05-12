@@ -73,7 +73,7 @@ module Comportamiento_de_instancias_case_class
   end
 
   def ===(otra_instancia)
-    self.is_a?(otra_instancia.class) && aplicar_a_variables.zip(otra_instancia.aplicar_a_variables).all? {|varA,varB| varA === varB} 
+    self.class == otra_instancia.class && aplicar_a_variables.zip(otra_instancia.aplicar_a_variables).all? {|varA,varB| varA === varB}
   end
 
 end
