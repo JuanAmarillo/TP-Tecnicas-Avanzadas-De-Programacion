@@ -16,7 +16,7 @@ require 'rspec'
         end
 
         expect{class Holi < Lol
-        end}.to raise_error(ArgumentError)
+        end}.to raise_error('No se puede heredar de una case_class')
 
     end
 

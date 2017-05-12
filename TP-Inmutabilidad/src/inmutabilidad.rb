@@ -1,7 +1,7 @@
 module Comportamiento_de_clase_case_class
 
   def inherited(subclass)
-    raise ArgumentError
+    raise ('No se puede heredar de una case_class')
   end
 
   def attr_accessor(*symbols)
