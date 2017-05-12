@@ -22,7 +22,6 @@ module Comportamiento_de_clase_case_class
 
 end
 
-
 module Comportamiento_de_instancias_case_class
 
   def initialize(args)
@@ -96,12 +95,20 @@ module Entorno
       self
     end
 
-    def new_case_class
-      Object.const_set(@nombre, (Class.new(@parent).extend Comportamiento_de_clase_case_class))
+    def new_case_class(&block)
+      una_case_class = Object.const_set(@nombre, (Class.new(@parent).extend Comportamiento_de_clase_case_class))
+      una_case_class.class_eval(&block)
+      Object.send(:define_method,una_case_class.name) do |*args|
+        una_case_class.new(*args) end
+      una_case_class.include Comportamiento_de_instancias_case_class
+      una_case_class
     end
 
-    def new_case_object
-      Object.const_set(@nombre, (Object.new.extend Comportamiento_de_instancias_case_class))
+    def new_case_object(nombre,&block)
+      un_case_object = Object.const_set(@nombre, (Object.new.extend Comportamiento_de_instancias_case_class))
+      un_case_object.instance_eval(&block)
+      un_case_object.define_singleton_method(:to_s) do "#{nombre}" end
+      un_case_object
     end
 
 
@@ -114,18 +121,11 @@ module Entorno
     end
 
     def case_class (builder, &block)
-      una_case_class = builder.new_case_class.include Comportamiento_de_instancias_case_class
-      una_case_class.class_eval(&block)
-      Object.send(:define_method,una_case_class.name) do |*args|
-        una_case_class.new(*args)
-      end
+      builder.new_case_class &block
     end
 
     def case_object (builder, &block)
-      un_case_object = builder.new_case_object
-      un_case_object.instance_eval(&block)
-      un_case_object.define_singleton_method(:to_s) do "#{builder.nombre}" end
-      un_case_object
+      builder.new_case_object(builder.nombre,&block)
     end
 
   end
