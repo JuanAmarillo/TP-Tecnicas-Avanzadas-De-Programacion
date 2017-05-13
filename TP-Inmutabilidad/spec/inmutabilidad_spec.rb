@@ -111,7 +111,7 @@ require 'rspec'
       alumno = Alumno("J",9)
 
       valor = case alumno
-                when has(:nombre, "J")
+                when has(:nombre, "J")  do self == "J" end
                   5
               end
 
@@ -133,7 +133,7 @@ require 'rspec'
                   2
                 when Alumno("Jose",Termino(8))
                   3
-                when Alumno(_,has(:nota, 9))
+                when Alumno(_,has(:nota, 9) do end)
                   "todo piola"
               end
 

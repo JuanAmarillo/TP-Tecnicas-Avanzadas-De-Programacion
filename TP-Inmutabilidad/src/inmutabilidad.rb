@@ -149,8 +149,14 @@ module Entorno
     Triple_igual.new(tipo) do |tipo| self.is_a?(tipo) end
   end
 
-  def has (atributo, valor)
-    Triple_igual.new(atributo,valor) do |atributo,valor| self.instance_variable_get("@#{atributo}") == valor end
+  def has (atributo, valor, &block)
+    Triple_igual.new(atributo,valor,block) do |atributo,valor,block2|
+      if self.instance_variable_get("@#{atributo}").instance_eval &block2
+        true
+      else
+        self.instance_variable_get("@#{atributo}") == valor
+      end
+    end
   end
 
   def _
