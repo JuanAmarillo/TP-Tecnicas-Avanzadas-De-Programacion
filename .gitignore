@@ -55,3 +55,7 @@ build-iPhoneSimulator/
 
 *.class
 *.log
+*.cache-main
+*.classpath
+*.project
+
