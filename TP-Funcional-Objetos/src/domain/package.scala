@@ -14,6 +14,8 @@ package object domain {
   
   val Chimuelo = FuriaNocturna(100,List(Basico,Tiene(SistemaDeVuelo)))
   
- // val FestivalDeInvierno = Torneo(List(Pesca,Combate,Carrera),List(Hipo,Astrid,Patan,Patapez))
+  val participantesInvierno = List(Hipo,Astrid,Patan,Patapez)
+  
+  //val FestivalDeInvierno = Torneo(List(Pesca,Combate,Carrera),participantesInvierno)
       
 }

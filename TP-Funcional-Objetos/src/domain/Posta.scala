@@ -1,17 +1,24 @@
 package domain
 
-  sealed trait Posta{
-    def participar(participantes : List[Participante]) {
-      participantes.filter(participante => cumpleCondicion(participante))
-    }
-    def cumpleCondicion(participante : Participante) : Boolean
+  trait Posta{
+	  def cumpleCondicion(participante: Participante )   : Boolean
+	  
+    def participar(participantes : List[Participante]) = 
+      participantes.filter(participante => puedeParticipar(participante))
+          .sortWith((unParticipante,otroParticipante) => unParticipante.esMejorQue(otroParticipante, this))
+    
+    def puedeParticipar(participante : Participante  ) = 
+      cumpleCondicion(participante) && suHambreNoLLegaACien(participante)
+      
+    def suHambreNoLLegaACien(participante:Participante) =
+      participante.hambreLuegoDe(this) < 100
 }
   case class Pesca(pesoMin : Int)     extends Posta {
-   def cumpleCondicion(participante: Participante) = participante.peso > pesoMin
+   def cumpleCondicion(participante: Participante     ) = participante.peso > pesoMin 
   }
   case class Combate(barbarosidadMin: Int)      extends Posta {
     def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
   }
-  case object Carrera extends Posta {
+  case class Carrera(kms: Int) extends Posta {
     def cumpleCondicion(participante: Participante) = ???
   }
