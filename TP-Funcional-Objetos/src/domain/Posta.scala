@@ -12,6 +12,6 @@ package domain
   case class Combate(barbarosidadMin: Int)      extends Posta {
     def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
   }
-  case class Carrera(montura: Option[Jinete]) extends Posta {
+  case object Carrera extends Posta {
     def cumpleCondicion(participante: Participante) = ???
   }

@@ -3,6 +3,7 @@ package domain
 sealed trait Participante{
   def peso : Int
   def barbarosidad : Int
+  def capacidadDeCarga : Double
 }
 
 case class Jinete(
@@ -24,11 +25,11 @@ case class Vikingo(
       velocidad: Double = 1,
       barbarosidad: Int = 1, 
       nivelDeHambre: Int = 0,
-      danioBase : Int = 1,
       item: Item 
 ) extends Participante
 {
-  def danio = this.danioBase + item.danio
+  def danio = barbarosidad + item.danio
+  def capacidadDeCarga = 0.5 * peso + 2 * barbarosidad
   
   def montar(unDragon:Dragon) = {
     if(unDragon.puedeSerMontadoPor(this))
