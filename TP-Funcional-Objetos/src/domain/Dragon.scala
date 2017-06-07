@@ -9,9 +9,11 @@ class Dragon(
   
 	def velocidad : Int = this.velocidadBase - this.peso
 	
+	def capacidadDeCarga =  0.2 * peso
+	
   def puedeSerMontadoPor(vikingo : Vikingo) = requisitos.forall(requisito => 
     requisito match {
-      case Basico                      => peso * 0.2 >= vikingo.peso
+      case Basico                      => capacidadDeCarga >= vikingo.peso
       case Vanidoso                    => danio > vikingo.danio
       case Barbaroso(barbarosidadMin)  => vikingo.barbarosidad > barbarosidadMin
       case Tiene(item)                 => vikingo.item.equals(item)
