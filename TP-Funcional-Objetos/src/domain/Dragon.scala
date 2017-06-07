@@ -14,7 +14,7 @@ class Dragon(
       case Basico                      => peso * 0.2 >= vikingo.peso
       case Vanidoso                    => danio > vikingo.danio
       case Barbaroso(barbarosidadMin)  => vikingo.barbarosidad > barbarosidadMin
-      case tiene(item)                 => vikingo.item.equals(item)
+      case Tiene(item)                 => vikingo.item.equals(item)
       case MuyPesado(pesoMax)          => vikingo.peso < pesoMax
     }
     
@@ -22,7 +22,7 @@ class Dragon(
 }
 
 case class FuriaNocturna(danio:Int,requisitos:List[RequisitoMontura])
-    extends Dragon(180,danio,???,requisitos)
+    extends Dragon(180,danio,500,requisitos)
 
 case class NadderMortifero(requisitos:List[RequisitoMontura])
   extends Dragon(???,150,???,requisitos)

@@ -2,7 +2,8 @@ package domain
 
  case class Item(
       danio: Int,
-      incrementos:Option[Incrementos])
+      incrementos:Option[Incrementos]
+ )
   
   case class Incrementos(
       velocidad : Double = 1,
