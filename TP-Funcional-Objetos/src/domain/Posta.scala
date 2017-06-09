@@ -4,10 +4,14 @@ package domain
 	  def cumpleCondicion(participante: Participante )   : Boolean
 	  
     def participar(participantes : List[Participante]) = 
-      participantes.filter(participante => puedeParticipar(participante))
-      .sortWith((unParticipante,otroParticipante) => unParticipante.esMejorQue(otroParticipante, this))
-      .map(participante => aplicarEfectos(participante))
-     
+      for {
+        participante <- ordenarPorMejor(participantes)  if puedeParticipar(participante) 
+      }
+      yield aplicarEfectos(participante)
+
+    def ordenarPorMejor(participantes : List[Participante]) = 
+       participantes.sortWith((unParticipante,otroParticipante) => unParticipante.esMejorQue(otroParticipante, this))
+      
     def aplicarEfectos(participante: Participante) = participante.nivelDeHambre(this)
       
     def puedeParticipar(participante : Participante  ) = 
