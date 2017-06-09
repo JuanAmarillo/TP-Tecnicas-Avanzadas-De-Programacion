@@ -21,6 +21,8 @@ case class Jinete(
     dragon : Dragon
 ) extends Participante
 {
+  require(dragon.puedeSerMontadoPor(vikingo))
+  
   def danio = vikingo.danio // + dragon.danio
   def velocidad = dragon.velocidad - vikingo.peso
   def capacidadDeCarga = dragon.capacidadDeCarga - vikingo.peso
@@ -49,10 +51,8 @@ case class Vikingo(
   
   def nivelDeHambre (posta:Posta) = copy(nivelDeHambre = hambreLuegoDe(posta))
   
-  def montar(unDragon:Dragon) = {
-    if(unDragon.puedeSerMontadoPor(this))
-      Jinete(this,unDragon)
-  }
+  def montar(unDragon:Dragon) = Jinete(this,unDragon)
+  
   
   def hambreLuegoDe(posta:Posta) = posta match {
     case Pesca(_)         => (nivelDeHambre + 0.05).min(100)
