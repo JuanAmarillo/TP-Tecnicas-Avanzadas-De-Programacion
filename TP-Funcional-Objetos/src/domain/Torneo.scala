@@ -7,7 +7,8 @@ case object Eliminacion extends Regla
 
 case class Torneo(
 		  postas: List[Posta],
-		  participantesIniciales: List[Participante],
+		  participantes: List[Participante],
+		  dragones: List[Dragon],
 		  reglas : Reglas
 		)
 {
@@ -17,16 +18,17 @@ case class Torneo(
   }
   
   def jugarPostas() : List[Participante] = {
-    postas.foldLeft(participantesIniciales){(participantes,posta) =>
-     participantes match {
-        case participante  :: participantes => jugarPosta(participantes,posta)
-        case _                              => participantes
+    postas.foldLeft(participantes){(ParticipantesEnJuego,posta) =>
+     ParticipantesEnJuego match {
+        case participante  :: participantes => jugarPosta(ParticipantesEnJuego,posta)
+        case _                              => ParticipantesEnJuego
       }
     }
   }
-  def jugarPosta(participantes: List[Participante],posta:Posta) : List[Participante] = {
-    val jugadores = posta.participar(participantes)
-    reglas.quienesAvanzan(jugadores)
+  def jugarPosta(participantesEnJuego: List[Participante],posta:Posta) : List[Participante] = {
+    val participantesListos = reglas.eleccionDeDragones(participantesEnJuego)
+    val ganadores = posta.participar(participantesListos)
+    reglas.quienesAvanzan(ganadores)
     
   }
 }
@@ -34,4 +36,5 @@ case class Torneo(
 case class Reglas(){
   def quienesAvanzan(participantes: List[Participante]) = ???
   def decidirGanador(participantes: List[Participante]) = ???
+  def eleccionDeDragones(participantes:List[Participante]) = ???
 }

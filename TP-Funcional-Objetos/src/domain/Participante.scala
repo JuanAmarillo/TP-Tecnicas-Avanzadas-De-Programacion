@@ -10,6 +10,7 @@ trait Participante{
   def velocidad: Double
   def nivelDeHambre(delta : Double) : Participante
   def estaHambriento() : Boolean
+  def montar(dragon:Dragon) : Jinete
   
   def esMejorQue(participante:Participante, posta:Posta) = posta match {
     case Pesca(_)   => this.capacidadDeCarga > participante.capacidadDeCarga
@@ -33,6 +34,7 @@ case class Jinete(
   
   def nivelDeHambre (delta : Double) = copy(vikingo = vikingo.nivelDeHambre(0.5))
   def estaHambriento() = vikingo.estaHambriento()
+  def montar(unDragon: Dragon) = Jinete(this.vikingo,unDragon)
   
 }
 
