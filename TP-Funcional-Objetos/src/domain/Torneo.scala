@@ -1,9 +1,8 @@
 package domain 
  
-sealed trait Regla
 
-case object Estandar extends Regla
-case object Eliminacion extends Regla
+
+
 
 case class Torneo(
 		  postas: List[Posta],
@@ -13,7 +12,8 @@ case class Torneo(
 		)
 {
   
-  def competir(regla : Regla) {
+  def competir(regla : Reglas) {
+    val ganadores = jugarPostas()
     reglas.decidirGanador(jugarPostas())
   }
   
@@ -21,6 +21,7 @@ case class Torneo(
     postas.foldLeft(participantes){(ParticipantesEnJuego,posta) =>
      ParticipantesEnJuego match {
         case participante  :: participantes => jugarPosta(ParticipantesEnJuego,posta)
+        case participante  :: null          => ParticipantesEnJuego
         case _                              => ParticipantesEnJuego
       }
     }
@@ -33,8 +34,4 @@ case class Torneo(
   }
 }
 
-case class Reglas(){
-  def quienesAvanzan(participantes: List[Participante]) = ???
-  def decidirGanador(participantes: List[Participante]) = ???
-  def eleccionDeDragones(participantes:List[Participante]) = ???
-}
+
