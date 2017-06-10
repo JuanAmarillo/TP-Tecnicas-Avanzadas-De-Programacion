@@ -57,7 +57,7 @@ case class Vikingo(
   
   def mejorMontura(dragones: List[Dragon], posta: Posta) : Participante =  { //  Jinete= 
      val participantes = posiblesJinetes(dragones) ++ List(this)
-     posta.ordenarPorMejor(participantes.filter(participante => posta.puedeParticipar(participante))).head
+     posta.empezarPosta(participantes).head
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {
