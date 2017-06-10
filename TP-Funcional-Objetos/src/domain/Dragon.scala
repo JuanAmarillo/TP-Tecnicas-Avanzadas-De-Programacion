@@ -2,11 +2,11 @@ package domain
 
 class Dragon(
      velocidadBase : Int = 60,
-     danio: Int,
+     danioBase: Int,
      peso : Int,
      requisitos : List[RequisitoMontura]
 ){
-  
+  def danio = danioBase
 	def velocidad : Int = this.velocidadBase - this.peso
 	
 	def capacidadDeCarga =  0.2 * peso
@@ -23,11 +23,11 @@ class Dragon(
   )
 }
 
-case class FuriaNocturna(danio:Int,requisitos:List[RequisitoMontura])
-    extends Dragon(180,danio,500,requisitos)
+case class FuriaNocturna(danioBase:Int,requisitos:List[RequisitoMontura])
+    extends Dragon(180,danioBase,500,requisitos)
 
 case class NadderMortifero(requisitos:List[RequisitoMontura])
-  extends Dragon(???,150,???,requisitos)
+  extends Dragon(60,2500,500,requisitos)
 
-case class Gronckle(requisitos:List[RequisitoMontura])
-  extends Dragon(20,???,???,requisitos)
+case class Gronckle(peso:Int,requisitos:List[RequisitoMontura])
+  extends Dragon(20,5*peso,peso,requisitos)

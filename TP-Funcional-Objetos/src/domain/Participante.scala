@@ -1,4 +1,6 @@
 package domain
+case class Item(danio: Int,incrementos:Option[Incrementos])
+case class Incrementos(velocidad : Double = 0,hambre: Double = 0)
 
 trait Participante{
   def peso : Int
@@ -23,7 +25,7 @@ case class Jinete(
 {
   require(dragon.puedeSerMontadoPor(vikingo))
   
-  def danio = vikingo.danio // + dragon.danio
+  def danio = vikingo.danio  + dragon.danio
   def velocidad = dragon.velocidad - vikingo.peso
   def capacidadDeCarga = dragon.capacidadDeCarga - vikingo.peso
   def peso = vikingo.peso //+ dragon.peso
@@ -37,9 +39,9 @@ case class Jinete(
 
 case class Vikingo(
       peso: Int = 60,
-      velocidadBase: Double = 1,
+      velocidadBase: Double = 1.0,
       barbarosidad: Int = 50, 
-      nivelDeHambre: Double = 0,
+      nivelDeHambre: Double = 0.0,
       item: Item 
 ) extends Participante
 { 
@@ -48,12 +50,20 @@ case class Vikingo(
   def velocidad = velocidadBase //*item.incrementos.velocidad
   
   def nivelDeHambre (delta : Double) = copy(nivelDeHambre = nivelDeHambre + delta)
-  def subirHambre(delta : Double) = (nivelDeHambre + delta).min(100)
+  def subirHambre(delta : Double) = (nivelDeHambre + delta).min(100.0)
   def estaHambriento() = nivelDeHambre == 100
   
   def montar(unDragon:Dragon) = Jinete(this,unDragon)
   
-      
+  def mejorMontura(dragones: List[Dragon], posta: Posta) : Participante =  { //  Jinete= 
+     val participantes = posiblesJinetes(dragones) ++ List(this)
+     posta.participar(participantes).head
+  }
+    
+  def posiblesJinetes(dragones: List[Dragon]) = for {
+      dragon <- dragones if dragon.puedeSerMontadoPor(this)    
+    } yield montar(dragon)
+
 }
 
 

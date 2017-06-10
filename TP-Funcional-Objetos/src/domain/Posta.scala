@@ -4,7 +4,7 @@ package domain
 	  def cumpleCondicion(participante: Participante )   : Boolean
 	  def aplicarEfectos(participante: Participante) : Participante
 	  
-    def participar(participantes : List[Participante]) = 
+    def participar(participantes :List[Participante]) = 
       for {
         participante <- ordenarPorMejor(participantes)  if puedeParticipar(participante) 
       }

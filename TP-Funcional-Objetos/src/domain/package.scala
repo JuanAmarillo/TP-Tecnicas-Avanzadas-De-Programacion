@@ -13,8 +13,10 @@ package object domain {
   val Patapez = Vikingo(item = ComestibleHambre)
   
   val Chimuelo = FuriaNocturna(100,List(Basico,Tiene(SistemaDeVuelo)))
+  val Slifer   = NadderMortifero(List(Basico,Vanidoso))
   
   val participantesInvierno = List(Hipo,Astrid,Patan,Patapez)
+  val dragones = List(Chimuelo,Slifer)
   
   //val FestivalDeInvierno = Torneo(List(Pesca,Combate,Carrera),participantesInvierno)
       
