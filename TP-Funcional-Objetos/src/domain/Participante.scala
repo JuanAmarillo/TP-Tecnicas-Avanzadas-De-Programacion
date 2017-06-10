@@ -6,8 +6,8 @@ trait Participante{
   def capacidadDeCarga : Double
   def danio: Int
   def velocidad: Double
-  def hambreLuegoDe(posta:Posta) : Double
-  def nivelDeHambre(posta:Posta) : Participante
+  def nivelDeHambre(delta : Double) : Participante
+  def estaHambriento() : Boolean
   
   def esMejorQue(participante:Participante, posta:Posta) = posta match {
     case Pesca(_)   => this.capacidadDeCarga > participante.capacidadDeCarga
@@ -28,11 +28,9 @@ case class Jinete(
   def capacidadDeCarga = dragon.capacidadDeCarga - vikingo.peso
   def peso = vikingo.peso //+ dragon.peso
   def barbarosidad = vikingo.barbarosidad
-  def nivelDeHambre = vikingo.nivelDeHambre
   
-  def nivelDeHambre (posta:Posta) = copy(vikingo = vikingo.copy(nivelDeHambre= hambreLuegoDe(posta)))
-  
-  def hambreLuegoDe(posta:Posta) = (nivelDeHambre + 0.05).min(100)
+  def nivelDeHambre (delta : Double) = copy(vikingo = vikingo.nivelDeHambre(0.5))
+  def estaHambriento() = vikingo.estaHambriento()
   
 }
 
@@ -44,21 +42,17 @@ case class Vikingo(
       nivelDeHambre: Double = 0,
       item: Item 
 ) extends Participante
-{
+{ 
   def danio = barbarosidad + item.danio
   def capacidadDeCarga = 0.5 * peso + 2 * barbarosidad
   def velocidad = velocidadBase //*item.incrementos.velocidad
   
-  def nivelDeHambre (posta:Posta) = copy(nivelDeHambre = hambreLuegoDe(posta))
+  def nivelDeHambre (delta : Double) = copy(nivelDeHambre = nivelDeHambre + delta)
+  def subirHambre(delta : Double) = (nivelDeHambre + delta).min(100)
+  def estaHambriento() = nivelDeHambre == 100
   
   def montar(unDragon:Dragon) = Jinete(this,unDragon)
   
-  
-  def hambreLuegoDe(posta:Posta) = posta match {
-    case Pesca(_)         => (nivelDeHambre + 0.05).min(100)
-    case Combate(_)       => (nivelDeHambre + 0.1).min(100)
-    case Carrera(kms:Int) => (nivelDeHambre + 0.1 * kms).min(100)
-  }
       
 }
 

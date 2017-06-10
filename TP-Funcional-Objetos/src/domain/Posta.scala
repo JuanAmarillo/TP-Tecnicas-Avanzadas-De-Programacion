@@ -2,6 +2,7 @@ package domain
 
   trait Posta{
 	  def cumpleCondicion(participante: Participante )   : Boolean
+	  def aplicarEfectos(participante: Participante) : Participante
 	  
     def participar(participantes : List[Participante]) = 
       for {
@@ -12,20 +13,22 @@ package domain
     def ordenarPorMejor(participantes : List[Participante]) = 
        participantes.sortWith((unParticipante,otroParticipante) => unParticipante.esMejorQue(otroParticipante, this))
       
-    def aplicarEfectos(participante: Participante) = participante.nivelDeHambre(this)
-      
+    
     def puedeParticipar(participante : Participante  ) = 
-      cumpleCondicion(participante) && suHambreNoLLegaACien(participante)
+      cumpleCondicion(participante) && noVaAEstarHambriento(participante)
       
-    def suHambreNoLLegaACien(participante:Participante) =
-      participante.hambreLuegoDe(this) < 100
+    def noVaAEstarHambriento(participante:Participante) =
+      !aplicarEfectos(participante).estaHambriento()
 }
   case class Pesca(pesoMin : Int)     extends Posta {
-   def cumpleCondicion(participante: Participante     ) = participante.peso > pesoMin 
+   def cumpleCondicion(participante: Participante ) = participante.peso > pesoMin
+   def aplicarEfectos(participante:  Participante ) = participante.nivelDeHambre(0.5)
   }
   case class Combate(barbarosidadMin: Int)      extends Posta {
     def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
+    def aplicarEfectos(participante:  Participante ) = participante.nivelDeHambre(0.1)
   }
   case class Carrera(kms: Int) extends Posta {
     def cumpleCondicion(participante: Participante) = ???
+    def aplicarEfectos(participante:  Participante ) = participante.nivelDeHambre(0.1 * kms)
   }
