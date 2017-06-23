@@ -3,6 +3,7 @@ package domain
   trait Posta{
 	  def cumpleCondicion(participante: Participante )   : Boolean
 	  def aplicarEfecto(participante: Participante) : Participante
+	  def esMejorQue(mejor:Participante,peor:Participante) : Boolean
 	  
     def participar(participantes :List[Participante]) : List[Participante] =
       aplicarEfectos(empezarPosta(participantes))
@@ -31,12 +32,15 @@ package domain
   case class Pesca(pesoMin : Int)     extends Posta {
    def cumpleCondicion(participante: Participante ) = participante.peso > pesoMin
    def aplicarEfecto(participante:  Participante ) = participante.nivelDeHambre(0.5)
+   def esMejorQue(mejor: Participante, peor: Participante) = mejor.capacidadDeCarga > peor.capacidadDeCarga 
   }
   case class Combate(barbarosidadMin: Int)      extends Posta {
     def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
     def aplicarEfecto(participante:  Participante ) = participante.nivelDeHambre(0.1)
+    def esMejorQue(mejor: Participante, peor: Participante) = mejor.danio > peor.danio
   }
   case class Carrera(kms: Int) extends Posta {
     def cumpleCondicion(participante: Participante) = ???
     def aplicarEfecto(participante:  Participante ) = participante.nivelDeHambre(0.1 * kms)
+    def esMejorQue(mejor: Participante, peor: Participante) = mejor.velocidad > peor.velocidad
   }

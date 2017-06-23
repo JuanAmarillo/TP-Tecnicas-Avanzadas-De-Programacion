@@ -1,8 +1,4 @@
 package domain 
- 
-
-
-
 
 case class Torneo(
 		  postas: List[Posta],
@@ -20,8 +16,8 @@ case class Torneo(
   def jugarPostas() : List[Participante] = {
     postas.foldLeft(participantes){(ParticipantesEnJuego,posta) =>
      ParticipantesEnJuego match {
+        case participante :: Nil          => ParticipantesEnJuego
         case participante  :: participantes => jugarPosta(ParticipantesEnJuego,posta)
-        case participante  :: null          => ParticipantesEnJuego
         case _                              => ParticipantesEnJuego
       }
     }

@@ -12,13 +12,9 @@ trait Participante{
   def estaHambriento() : Boolean
   def montar(dragon:Dragon) : Jinete
   
-  def esMejorQue(participante:Participante, posta:Posta) = posta match {
-    case Pesca(_)   => this.capacidadDeCarga > participante.capacidadDeCarga
-    case Combate(_) => this.danio > participante.danio
-    case Carrera(_) => this.velocidad > participante.velocidad
-  }
+  def esMejorQue(participante:Participante, posta:Posta) = posta.esMejorQue(this,participante)
+  
 }
-
 case class Jinete(
     vikingo: Vikingo,
     dragon : Dragon
