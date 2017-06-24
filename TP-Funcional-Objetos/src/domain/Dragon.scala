@@ -10,7 +10,6 @@ class Dragon(
 ){
   def danio = danioBase
 	def velocidad : Int = this.velocidadBase - this.peso
-	
 	def capacidadDeCarga =  0.2 * peso
 	
 	def cumpleRequisitoBasico(vikingo:Vikingo) = capacidadDeCarga >= vikingo.peso // o mejor lo meto en List[Requistos]??

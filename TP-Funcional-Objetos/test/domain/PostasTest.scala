@@ -7,7 +7,7 @@ import org.junit.Test
 
 class PostasTest {
   
-  val PatanDespuesDeCombate = Vikingo(60,1.0,50,0.1,item = Maza)
+  val PatanDespuesDeCombate = Vikingo(60,1.0,50,10,item = Maza)
      
   @Test
   def patanEsMejorQueAstridEnCombate(){

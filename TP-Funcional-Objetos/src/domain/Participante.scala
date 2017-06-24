@@ -1,16 +1,12 @@
 package domain
 
-
-case class Item(danio: Int,incrementos:Option[Incrementos])
-case class Incrementos(velocidad : Double = 0,hambre: Double = 0)
-
 trait Participante{
   def peso : Int
   def barbarosidad : Int
   def capacidadDeCarga : Double
   def danio: Int
   def velocidad: Double
-  def nivelDeHambre(delta : Double) : Participante
+  def nivelDeHambre(delta : Int) : Participante
   def estaHambriento() : Boolean
   def montar(dragon:Dragon) : Jinete
   
@@ -30,7 +26,7 @@ case class Jinete(
   def peso = vikingo.peso //+ dragon.peso
   def barbarosidad = vikingo.barbarosidad
   
-  def nivelDeHambre (delta : Double) = copy(vikingo = vikingo.nivelDeHambre(0.5))
+  def nivelDeHambre (delta : Int) = copy(vikingo = vikingo.nivelDeHambre(5))
   def estaHambriento() = vikingo.estaHambriento()
   def montar(unDragon: Dragon) = Jinete(this.vikingo,unDragon)
   
@@ -41,16 +37,18 @@ case class Vikingo(
       peso: Int = 60,
       velocidadBase: Double = 1.0,
       barbarosidad: Int = 50, 
-      nivelDeHambre: Double = 0.0,
+      nivelDeHambre: Int = 0,
       item: Item 
 ) extends Participante
 { 
+  
+  def luegoDePosta = item.luegoDePosta(this)
   def danio = barbarosidad + item.danio
   def capacidadDeCarga = 0.5 * peso + 2 * barbarosidad
-  def velocidad = velocidadBase //*item.incrementos.velocidad
+  def velocidad = velocidadBase 
   
-  def nivelDeHambre (delta : Double) = copy(nivelDeHambre = nivelDeHambre + delta)
-  def subirHambre(delta : Double) = (nivelDeHambre + delta).min(100.0)
+  def nivelDeHambre (delta : Int) = copy(nivelDeHambre = subirHambre(delta))
+  def subirHambre(delta : Int) = (nivelDeHambre + delta).min(100)
   def estaHambriento() = nivelDeHambre == 100
   
   def montar(unDragon:Dragon) = Jinete(this,unDragon)

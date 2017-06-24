@@ -7,10 +7,10 @@ package object domain {
   val tiene: Item => RequisitoMontura = item => (vikingo,_) => vikingo.item == item
   val pesado: Int => RequisitoMontura = peso => (vikingo,_) => vikingo.peso < peso
   
-  val Hacha   = Item(30,None)
-  val Maza    = Item(100,None)
-  val SistemaDeVuelo   = Item(0,Some(Incrementos(velocidad = 1.3)))
-  val ComestibleHambre = Item(0,Some(Incrementos(hambre    = 0.4)))
+  val Hacha   = Arma(30)
+  val Maza    = Arma(100)
+  val SistemaDeVuelo   = Arma(10)
+  val ComestibleHambre = Consumible(4)
   
   val Hipo    = Vikingo(item = SistemaDeVuelo)
   val Astrid  = Vikingo(item = Hacha)
