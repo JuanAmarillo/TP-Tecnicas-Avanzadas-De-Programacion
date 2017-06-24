@@ -1,6 +1,11 @@
 
 
 package object domain {
+
+  type RequisitoMontura = (Vikingo,Dragon) => Boolean
+  val vanidoso: RequisitoMontura = (vikingo,dragon) => dragon.danio > vikingo.danio
+  val tiene: Item => RequisitoMontura = item => (vikingo,_) => vikingo.item == item
+  val pesado: Int => RequisitoMontura = peso => (vikingo,_) => vikingo.peso < peso
   
   val Hacha   = Item(30,None)
   val Maza    = Item(100,None)
@@ -12,11 +17,11 @@ package object domain {
   val Patan   = Vikingo(item = Maza)
   val Patapez = Vikingo(item = ComestibleHambre)
   
-  val Chimuelo = FuriaNocturna(100,List(Basico,Tiene(SistemaDeVuelo)))
-  val Slifer   = NadderMortifero(List(Basico,Vanidoso))
+  val Chimuelo = FuriaNocturna(100,List(tiene(SistemaDeVuelo)))
+  val Slifer   = NadderMortifero(List(vanidoso))
   
   val participantesInvierno = List(Hipo,Astrid,Patan,Patapez)
-  val dragones = List(Chimuelo,Slifer)
+  val dragones = List(Chimuelo,Slifer)  
   
   //val FestivalDeInvierno = Torneo(List(Pesca,Combate,Carrera),participantesInvierno)
       

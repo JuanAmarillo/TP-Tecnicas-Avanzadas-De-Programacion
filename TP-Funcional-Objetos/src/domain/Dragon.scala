@@ -1,26 +1,22 @@
 package domain
 
+
+
 class Dragon(
      velocidadBase : Int = 60,
      danioBase: Int,
      peso : Int,
-     requisitos : List[RequisitoMontura]
+     requisitos : List[RequisitoMontura] = null
 ){
   def danio = danioBase
 	def velocidad : Int = this.velocidadBase - this.peso
 	
 	def capacidadDeCarga =  0.2 * peso
 	
-  def puedeSerMontadoPor(vikingo : Vikingo) = requisitos.forall(requisito => 
-    requisito match {
-      case Basico                      => capacidadDeCarga >= vikingo.peso
-      case Vanidoso                    => danio > vikingo.danio
-      case Barbaroso(barbarosidadMin)  => vikingo.barbarosidad > barbarosidadMin
-      case Tiene(item)                 => vikingo.item.equals(item)
-      case MuyPesado(pesoMax)          => vikingo.peso < pesoMax
-    }
-    
-  )
+	def cumpleRequisitoBasico(vikingo:Vikingo) = capacidadDeCarga >= vikingo.peso // o mejor lo meto en List[Requistos]??
+	def cumpleRequisitos(vikingo: Vikingo) = requisitos.forall(requisito => requisito.apply(vikingo, this))
+  def puedeSerMontadoPor(vikingo : Vikingo) = cumpleRequisitoBasico(vikingo) && cumpleRequisitos(vikingo)
+
 }
 
 case class FuriaNocturna(danioBase:Int,requisitos:List[RequisitoMontura])
