@@ -1,9 +1,6 @@
 package domain
 
   trait Posta{
-	  def cumpleCondicion(participante: Participante )   : Boolean
-	  def aplicarEfecto(participante: Participante) : Participante
-	  def esMejorQue(mejor:Participante,peor:Participante) : Boolean
 	  
     def participar(participantes :List[Participante]) : List[Participante] =
       aplicarEfectos(empezarPosta(participantes))
@@ -27,20 +24,39 @@ package domain
       cumpleCondicion(participante) && noVaAEstarHambriento(participante)
       
     def noVaAEstarHambriento(participante:Participante) =
-      !aplicarEfecto(participante).estaHambriento()
+      !aplicarEfecto(participante).estaHambriento
+      
+    def aplicarEfecto(participante: Participante) = participante.aplicarEfecto(hambreLuegoDePosta).terminarPosta
+    
+    def cumpleCondicion(participante: Participante )   : Boolean
+	  def esMejorQue(mejor:Participante,peor:Participante) : Boolean
+    def hambreLuegoDePosta : Int
+      
 }
   case class Pesca(pesoMin : Int)     extends Posta {
+    
    def cumpleCondicion(participante: Participante ) = participante.peso > pesoMin
-   def aplicarEfecto(participante:  Participante ) = participante.aumentarHambre(5).terminarPosta
+   
+   def hambreLuegoDePosta = 5
+   
    def esMejorQue(mejor: Participante, peor: Participante) = mejor.capacidadDeCarga > peor.capacidadDeCarga 
+   
   }
   case class Combate(barbarosidadMin: Int)      extends Posta {
+    
     def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
-    def aplicarEfecto(participante:  Participante ) = participante.aumentarHambre(10).terminarPosta
+    
+    def hambreLuegoDePosta = 10
+    
     def esMejorQue(mejor: Participante, peor: Participante) = mejor.danio > peor.danio
+    
   }
   case class Carrera(kms: Int) extends Posta {
+    
     def cumpleCondicion(participante: Participante) = ???
-    def aplicarEfecto(participante:  Participante ) = participante.aumentarHambre(kms).terminarPosta
+    
+    def hambreLuegoDePosta = kms
+    
     def esMejorQue(mejor: Participante, peor: Participante) = mejor.velocidad > peor.velocidad
+    
   }

@@ -9,7 +9,7 @@ trait Participante{
   def capacidadDeCarga : Double
   def danio: Int
   def velocidad: Int
-  def aumentarHambre(delta : Int) : Participante
+  def aplicarEfecto(delta : Int) : Participante
   def estaHambriento() : Boolean
   def montar(dragon:Dragon) : Try[Jinete]
   def terminarPosta: Participante
@@ -25,12 +25,16 @@ case class Jinete(
   require(dragon.puedeSerMontadoPor(vikingo))
   
   def danio = vikingo.danio  + dragon.danio
+  
   def velocidad = dragon.velocidad - vikingo.peso
+  
   def capacidadDeCarga = dragon.capacidadDeCarga - vikingo.peso
+  
   def peso = vikingo.peso //+ dragon.peso
+  
   def barbarosidad = vikingo.barbarosidad
   
-  def aumentarHambre (delta : Int) = copy(vikingo = vikingo.aumentarHambre(5))
+  def aplicarEfecto(hambreAAumetar : Int) = copy(vikingo = vikingo.aplicarEfecto(5))
   
   def terminarPosta = copy(vikingo = vikingo.terminarPosta)
   
@@ -61,11 +65,11 @@ case class Vikingo(
   
   def capacidadDeCarga = 0.5 * peso + 2 * barbarosidad
   
-  def aumentarHambre(delta : Int) = copy(nivelDeHambre = hambreConEfectos(delta).min(100))
+  def aplicarEfecto(hambre: Int)  = aumentarHambre(hambre * efectos.aumentoDeHambre)
   
-  def disminuirHambre(delta : Int) = copy(nivelDeHambre = (nivelDeHambre - delta).max(0))
+  def aumentarHambre(hambre : Int) = copy(nivelDeHambre =  (nivelDeHambre + hambre).min(100))
   
-  def hambreConEfectos(delta : Int) = nivelDeHambre + delta*efectos.aumentoDeHambre
+  def disminuirHambre(hambre : Int) = copy(nivelDeHambre = (nivelDeHambre - hambre).max(0))
   
   def terminarPosta = item.luegoDePosta(this)
   
