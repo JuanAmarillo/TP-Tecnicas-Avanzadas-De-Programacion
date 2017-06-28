@@ -1,13 +1,9 @@
 package domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.assertFalse
+import org.junit.Assert._
 import org.junit.Test
 
 class PostasTest {
-  
-  val PatanDespuesDeCombate = Vikingo(60,1.0,50,10,item = Maza)
      
   @Test
   def patanEsMejorQueAstridEnCombate(){
@@ -15,8 +11,15 @@ class PostasTest {
   }
   
   @Test
+  def patapezParticipaEnCombate(){
+    val PatapezDespuesDeCombate = Vikingo(nivelDeHambre = 16,item = ComestibleHambre, efectos = EfectosPosta(50,2))
+    assertTrue(Combate(0).participar(List(Patapez)).head.equals(PatapezDespuesDeCombate))
+  }
+  
+  @Test
   def patanGanaLaPostaDeCombate(){
-    assertTrue(Combate(0).participar(participantesInvierno).head.toString().equals(PatanDespuesDeCombate.toString()) )
+    val PatanDespuesDeCombate = Vikingo(nivelDeHambre = 10,item = Maza)
+    assertTrue(Combate(0).participar(participantesInvierno).head.equals(PatanDespuesDeCombate))
   }
    
 }

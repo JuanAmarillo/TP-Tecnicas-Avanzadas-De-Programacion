@@ -17,7 +17,7 @@ class RequisitosDragones {
   
   @Test
   def dragonConMuchosRequisitosPuedeSerMontado(){
-    val dragon = new Dragon(60,1000,500,List(vanidoso,tiene(Hacha),pesado(70)))
+    val dragon = new Dragon(60,1000,500,List(vanidoso,tiene(Hacha),pesado(90)))
     val vikingo = new Vikingo(item = Hacha)
     assertTrue(dragon.cumpleRequisitos(vikingo))
   }
