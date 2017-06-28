@@ -1,5 +1,8 @@
 package domain
 
+import scala.util.Try
+
+
 trait Participante{
   def peso : Int
   def barbarosidad : Int
@@ -8,7 +11,7 @@ trait Participante{
   def velocidad: Double
   def nivelDeHambre(delta : Int) : Participante
   def estaHambriento() : Boolean
-  def montar(dragon:Dragon) : Jinete
+  def montar(dragon:Dragon) : Try[Jinete]
   
   def esMejorQue(participante:Participante, posta:Posta) = posta.esMejorQue(this,participante)
   
@@ -28,7 +31,7 @@ case class Jinete(
   
   def nivelDeHambre (delta : Int) = copy(vikingo = vikingo.nivelDeHambre(5))
   def estaHambriento() = vikingo.estaHambriento()
-  def montar(unDragon: Dragon) = Jinete(this.vikingo,unDragon)
+  def montar(unDragon: Dragon) = Try(Jinete(this.vikingo,unDragon))
   
 }
 
@@ -51,7 +54,7 @@ case class Vikingo(
   def subirHambre(delta : Int) = (nivelDeHambre + delta).min(100)
   def estaHambriento() = nivelDeHambre == 100
   
-  def montar(unDragon:Dragon) = Jinete(this,unDragon)
+  def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
   
   def mejorMontura(dragones: List[Dragon], posta: Posta) : Participante =  { //  Jinete= 
      val participantes = posiblesJinetes(dragones) ++ List(this)
@@ -60,7 +63,7 @@ case class Vikingo(
     
   def posiblesJinetes(dragones: List[Dragon]) = for {
       dragon <- dragones if dragon.puedeSerMontadoPor(this)    
-    } yield montar(dragon)
+    } yield montar(dragon).get
 
 }
 
