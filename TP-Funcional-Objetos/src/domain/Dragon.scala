@@ -19,10 +19,10 @@ class Dragon(
 }
 
 case class FuriaNocturna(danioBase:Int,requisitos:List[RequisitoMontura])
-    extends Dragon(180,danioBase,500,requisitos)
+    extends Dragon(180,danioBase,500,vanidoso +: requisitos)
 
 case class NadderMortifero(requisitos:List[RequisitoMontura])
-  extends Dragon(60,2500,500,requisitos)
+  extends Dragon(60,150,500,requisitos)
 
-case class Gronckle(peso:Int,requisitos:List[RequisitoMontura])
-  extends Dragon(20,5*peso,peso,requisitos)
+case class Gronckle(peso:Int,pesoMontura:Int,requisitos:List[RequisitoMontura])
+  extends Dragon(30,5*peso,peso,pesado(pesoMontura) +: requisitos)
