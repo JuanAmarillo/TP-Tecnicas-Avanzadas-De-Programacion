@@ -8,7 +8,7 @@ trait Participante{
   def barbarosidad : Int
   def capacidadDeCarga : Double
   def danio: Int
-  def velocidad: Double
+  def velocidad: Int
   def nivelDeHambre(delta : Int) : Participante
   def estaHambriento() : Boolean
   def montar(dragon:Dragon) : Try[Jinete]
@@ -37,21 +37,29 @@ case class Jinete(
 
 
 case class Vikingo(
-      peso: Int = 60,
-      velocidadBase: Double = 1.0,
+      velocidadBase: Int = 1,
       barbarosidad: Int = 50, 
+      pesoBase: Int = 60,
       nivelDeHambre: Int = 0,
       item: Item 
 ) extends Participante
 { 
   
   def luegoDePosta = item.luegoDePosta(this)
-  def danio = barbarosidad + item.danio
+  
+  def danio = item.estadisticas(this).barbarosidad
+  
+  def velocidad = item.estadisticas(this).velocidadBase
+
+  def peso = item.estadisticas(this).pesoBase
+  
   def capacidadDeCarga = 0.5 * peso + 2 * barbarosidad
-  def velocidad = velocidadBase 
+  
   
   def nivelDeHambre (delta : Int) = copy(nivelDeHambre = subirHambre(delta))
+  
   def subirHambre(delta : Int) = (nivelDeHambre + delta).min(100)
+  
   def estaHambriento() = nivelDeHambre == 100
   
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
