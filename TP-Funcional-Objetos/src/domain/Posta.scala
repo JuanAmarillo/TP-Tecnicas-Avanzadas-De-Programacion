@@ -31,16 +31,16 @@ package domain
 }
   case class Pesca(pesoMin : Int)     extends Posta {
    def cumpleCondicion(participante: Participante ) = participante.peso > pesoMin
-   def aplicarEfecto(participante:  Participante ) = participante.nivelDeHambre(5)
+   def aplicarEfecto(participante:  Participante ) = participante.aumentarHambre(5).terminarPosta
    def esMejorQue(mejor: Participante, peor: Participante) = mejor.capacidadDeCarga > peor.capacidadDeCarga 
   }
   case class Combate(barbarosidadMin: Int)      extends Posta {
     def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
-    def aplicarEfecto(participante:  Participante ) = participante.nivelDeHambre(10)
+    def aplicarEfecto(participante:  Participante ) = participante.aumentarHambre(10).terminarPosta
     def esMejorQue(mejor: Participante, peor: Participante) = mejor.danio > peor.danio
   }
   case class Carrera(kms: Int) extends Posta {
     def cumpleCondicion(participante: Participante) = ???
-    def aplicarEfecto(participante:  Participante ) = participante.nivelDeHambre(kms)
+    def aplicarEfecto(participante:  Participante ) = participante.aumentarHambre(kms).terminarPosta
     def esMejorQue(mejor: Participante, peor: Participante) = mejor.velocidad > peor.velocidad
   }

@@ -19,5 +19,5 @@ case class Consumible(porcentajeHambre : Int) extends Item{
   
   def estadisticas(vikingo: Vikingo) = vikingo
   
-  def luegoDePosta(vikingo: Vikingo) = vikingo.nivelDeHambre(-1*porcentajeHambre)
+  def luegoDePosta(vikingo: Vikingo) = vikingo.disminuirHambre(porcentajeHambre)
 }

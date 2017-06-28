@@ -15,7 +15,8 @@ package object domain {
   val Hipo    = Vikingo(item = SistemaDeVuelo)
   val Astrid  = Vikingo(item = Hacha)
   val Patan   = Vikingo(item = Maza)
-  val Patapez = Vikingo(item = ComestibleHambre)
+  val Patapez = Vikingo(item = ComestibleHambre, efectos = EfectosPosta(50,2))
+  
   
   val Chimuelo = FuriaNocturna(100,List(tiene(SistemaDeVuelo)))
   val Slifer   = NadderMortifero(List(vanidoso))

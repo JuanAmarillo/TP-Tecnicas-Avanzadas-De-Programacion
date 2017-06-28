@@ -9,9 +9,10 @@ trait Participante{
   def capacidadDeCarga : Double
   def danio: Int
   def velocidad: Int
-  def nivelDeHambre(delta : Int) : Participante
+  def aumentarHambre(delta : Int) : Participante
   def estaHambriento() : Boolean
   def montar(dragon:Dragon) : Try[Jinete]
+  def terminarPosta: Participante
   
   def esMejorQue(participante:Participante, posta:Posta) = posta.esMejorQue(this,participante)
   
@@ -29,8 +30,13 @@ case class Jinete(
   def peso = vikingo.peso //+ dragon.peso
   def barbarosidad = vikingo.barbarosidad
   
-  def nivelDeHambre (delta : Int) = copy(vikingo = vikingo.nivelDeHambre(5))
+  def aumentarHambre (delta : Int) = copy(vikingo = vikingo.aumentarHambre(5))
+  
+  def terminarPosta = copy(vikingo = vikingo.terminarPosta)
+  
   def estaHambriento() = vikingo.estaHambriento()
+  
+  
   def montar(unDragon: Dragon) = Try(Jinete(this.vikingo,unDragon))
   
 }
@@ -41,11 +47,11 @@ case class Vikingo(
       barbarosidad: Int = 50, 
       pesoBase: Int = 60,
       nivelDeHambre: Int = 0,
-      item: Item 
+      item: Item,
+      efectos : EfectosPosta = EfectosPosta()
 ) extends Participante
 { 
   
-  def luegoDePosta = item.luegoDePosta(this)
   
   def danio = item.estadisticas(this).barbarosidad
   
@@ -55,12 +61,15 @@ case class Vikingo(
   
   def capacidadDeCarga = 0.5 * peso + 2 * barbarosidad
   
+  def aumentarHambre(delta : Int) = copy(nivelDeHambre = hambreConEfectos(delta).min(100))
   
-  def nivelDeHambre (delta : Int) = copy(nivelDeHambre = subirHambre(delta))
+  def disminuirHambre(delta : Int) = copy(nivelDeHambre = (nivelDeHambre - delta).max(0))
   
-  def subirHambre(delta : Int) = (nivelDeHambre + delta).min(100)
+  def hambreConEfectos(delta : Int) = nivelDeHambre + delta*efectos.aumentoDeHambre
   
-  def estaHambriento() = nivelDeHambre == 100
+  def terminarPosta = item.luegoDePosta(this)
+  
+  def estaHambriento = nivelDeHambre >= efectos.maxHambrePermitida
   
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
   
@@ -74,6 +83,8 @@ case class Vikingo(
     } yield montar(dragon).get
 
 }
+
+case class EfectosPosta(maxHambrePermitida: Int = 100, aumentoDeHambre: Int = 1)
 
 
 
