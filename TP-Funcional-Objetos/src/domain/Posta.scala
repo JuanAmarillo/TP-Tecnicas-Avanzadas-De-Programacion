@@ -1,5 +1,8 @@
 package domain
 
+import scala.util.Try
+import scala.util.Success
+
   trait Posta{
 	  
     def participar(participantes :List[Participante]) : List[Participante] =
@@ -10,11 +13,14 @@ package domain
 	    for{participante <- participantes} yield aplicarEfecto(participante)
 	  
 	  
-    def empezarPosta(participantes: List[Participante]) =
+    def empezarPosta(participantes: List[Try[Participante]]) =
       for {
-        participante <- ordenarPorMejor(participantes)  if puedeParticipar(participante) 
+        participanteCorrecto <- participantes if participanteCorrecto.isSuccess
+        cosas <- participanteCorrecto.get
+       participante <- ordenarPorMejor(participanteCorrecto)  if puedeParticipar(participante) 
       }
       yield participante
+
       
     def ordenarPorMejor(participantes : List[Participante]) = 
        participantes.sortWith((unParticipante,otroParticipante) => unParticipante.esMejorQue(otroParticipante, this))

@@ -78,13 +78,13 @@ case class Vikingo(
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
   
   def mejorMontura(dragones: List[Dragon], posta: Posta) : Participante =  { //  Jinete= 
-     val participantes = posiblesJinetes(dragones) ++ List(this)
+     val participantes = posiblesJinetes(dragones) ++ List(Try(this))
      posta.empezarPosta(participantes).head
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {
-      dragon <- dragones if dragon.puedeSerMontadoPor(this)    
-    } yield montar(dragon).get
+      dragon <- dragones //if dragon.puedeSerMontadoPor(this)    
+    } yield montar(dragon)
 
 }
 
