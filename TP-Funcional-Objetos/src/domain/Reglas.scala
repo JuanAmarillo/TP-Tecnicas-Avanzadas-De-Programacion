@@ -1,8 +1,8 @@
 package domain
 
-trait Reglas {
+abstract class Reglas {
   
-  var dragonesDisponibles : List[Dragon]
+  var dragonesDisponibles: List[Dragon] = List()
   
   def eleccionDeDragones(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) : List[Participante] = {
     dragonesDisponibles = dragones
