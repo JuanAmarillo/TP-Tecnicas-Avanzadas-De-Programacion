@@ -14,12 +14,12 @@ trait Reglas {
     if(esMejorSinMontura(vikingo,mejorMontura,posta)) 
       vikingo
     else
-      elegirJinete(mejorMontura)
+      usarJinete(mejorMontura)
   }
   
   def esMejorSinMontura(vikingo: Vikingo, jinete: Jinete, posta: Posta) = vikingo.esMejorQue(jinete, posta)
    
-  def elegirJinete(jinete : Jinete): Jinete = {
+  def usarJinete(jinete : Jinete): Jinete = {
     actualizarDragonesDisponibles(jinete.dragon)
     jinete
   }
@@ -50,6 +50,7 @@ trait Estandar extends Reglas{
 case class Eliminacion(siguen:Int) extends Estandar{
   override def quienesAvanzan(vikingos: List[Vikingo]) =
     vikingos.take(siguen)
+    
 }
 case object Inverso extends Estandar{
   override def quienesAvanzan(vikingos: List[Vikingo]) =
