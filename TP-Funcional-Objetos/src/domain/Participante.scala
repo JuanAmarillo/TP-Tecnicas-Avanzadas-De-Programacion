@@ -10,9 +10,9 @@ trait Participante{
   def danio: Int
   def velocidad: Int
   def aplicarEfecto(delta : Int) : Participante
-  def estaHambriento() : Boolean
-  def montar(dragon:Dragon) : Try[Jinete]
+  def estaHambriento : Boolean
   def terminarPosta: Participante
+  def vikingo: Vikingo
   
   def esMejorQue(participante:Participante, posta:Posta) = posta.esMejorQue(this,participante)
   
@@ -38,10 +38,9 @@ case class Jinete(
   
   def terminarPosta = copy(vikingo = vikingo.terminarPosta)
   
-  def estaHambriento() = vikingo.estaHambriento()
+  def estaHambriento = vikingo.estaHambriento
   
   
-  def montar(unDragon: Dragon) = Try(Jinete(this.vikingo,unDragon))
   
 }
 
@@ -56,6 +55,7 @@ case class Vikingo(
 ) extends Participante
 { 
   
+  def vikingo = this
   
   def danio = item.estadisticas(this).barbarosidad
   
@@ -76,15 +76,15 @@ case class Vikingo(
   def estaHambriento = nivelDeHambre >= efectos.maxHambrePermitida
   
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
-  
-  def mejorMontura(dragones: List[Dragon], posta: Posta) : Participante =  { //  Jinete= 
-     val participantes = posiblesJinetes(dragones) ++ List(Try(this))
-     posta.empezarPosta(participantes).head
+ 
+  def mejorMontura(dragones: List[Dragon], posta: Posta) : Jinete =  {  
+     val jinetes = posiblesJinetes(dragones)
+     posta.empezarPosta(jinetes).head
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {
-      dragon <- dragones //if dragon.puedeSerMontadoPor(this)    
-    } yield montar(dragon)
+      dragon <- dragones if dragon.puedeSerMontadoPor(this)    
+    } yield montar(dragon).get
 
 }
 

@@ -2,30 +2,28 @@ package domain
 
 case class Torneo(
 		  postas: List[Posta],
-		  participantes: List[Participante],
+		  vikingos: List[Vikingo],
 		  dragones: List[Dragon],
 		  reglas : Reglas
 		)
 {
   
   def competir(regla : Reglas) {
-    val ganadores = jugarPostas()
-    reglas.decidirGanador(jugarPostas())
+    val ganadores = jugarPostas
+    reglas.decidirGanador(ganadores)
   }
   
-  def jugarPostas() : List[Participante] = {
-    postas.foldLeft(participantes){(ParticipantesEnJuego,posta) =>
-     ParticipantesEnJuego match {
-        case participante :: Nil          => ParticipantesEnJuego
-        case participante  :: participantes => jugarPosta(ParticipantesEnJuego,posta)
-        case _                              => ParticipantesEnJuego
-      }
+  def jugarPostas : List[Vikingo] = {
+    postas.foldLeft(vikingos){(vikingosEnJuego,posta) =>
+        jugarPosta(vikingosEnJuego, posta)
+      
     }
   }
-  def jugarPosta(participantesEnJuego: List[Participante],posta:Posta) : List[Participante] = {
-    val participantesListos = reglas.eleccionDeDragones(participantesEnJuego)
+  def jugarPosta(vikingosEnJuego: List[Vikingo],posta:Posta) : List[Vikingo] = {
+    val participantesListos = reglas.eleccionDeDragones(vikingosEnJuego,posta,dragones)
     val ganadores = posta.participar(participantesListos)
-    reglas.quienesAvanzan(ganadores)
+    val vikingosGanadores = ganadores.map(_.vikingo)
+    reglas.quienesAvanzan(vikingosGanadores)
     
   }
 }

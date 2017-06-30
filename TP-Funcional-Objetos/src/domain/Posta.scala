@@ -1,8 +1,5 @@
 package domain
 
-import scala.util.Try
-import scala.util.Success
-
   trait Posta{
 	  
     def participar(participantes :List[Participante]) : List[Participante] =
@@ -13,35 +10,32 @@ import scala.util.Success
 	    for{participante <- participantes} yield aplicarEfecto(participante)
 	  
 	  
-    def empezarPosta(participantes: List[Try[Participante]]) =
+    def empezarPosta[T <: Participante](participantes: List[T]) =
       for {
-        participanteCorrecto <- participantes if participanteCorrecto.isSuccess
-        cosas <- participanteCorrecto.get
-       participante <- ordenarPorMejor(participanteCorrecto)  if puedeParticipar(participante) 
+        participante <- ordenarPorMejor(participantes)  if puedeParticipar(participante) 
       }
       yield participante
-
       
-    def ordenarPorMejor(participantes : List[Participante]) = 
+    def ordenarPorMejor[T <: Participante](participantes : List[T]) = 
        participantes.sortWith((unParticipante,otroParticipante) => unParticipante.esMejorQue(otroParticipante, this))
       
     
-    def puedeParticipar(participante : Participante  ) = 
+    def puedeParticipar[T <: Participante](participante : T  ) = 
       cumpleCondicion(participante) && noVaAEstarHambriento(participante)
       
-    def noVaAEstarHambriento(participante:Participante) =
+    def noVaAEstarHambriento[T <: Participante](participante:T) =
       !aplicarEfecto(participante).estaHambriento
       
     def aplicarEfecto(participante: Participante) = participante.aplicarEfecto(hambreLuegoDePosta).terminarPosta
     
-    def cumpleCondicion(participante: Participante )   : Boolean
+    def cumpleCondicion[T <: Participante](participante: T )   : Boolean
 	  def esMejorQue(mejor:Participante,peor:Participante) : Boolean
     def hambreLuegoDePosta : Int
       
 }
   case class Pesca(pesoMin : Int)     extends Posta {
     
-   def cumpleCondicion(participante: Participante ) = participante.peso > pesoMin
+   def cumpleCondicion[T <: Participante](participante: T ) = participante.peso > pesoMin
    
    def hambreLuegoDePosta = 5
    
@@ -50,7 +44,7 @@ import scala.util.Success
   }
   case class Combate(barbarosidadMin: Int)      extends Posta {
     
-    def cumpleCondicion(participante: Participante) = participante.barbarosidad > barbarosidadMin
+    def cumpleCondicion[T <: Participante](participante: T) = participante.barbarosidad > barbarosidadMin
     
     def hambreLuegoDePosta = 10
     
@@ -59,7 +53,7 @@ import scala.util.Success
   }
   case class Carrera(kms: Int) extends Posta {
     
-    def cumpleCondicion(participante: Participante) = ???
+    def cumpleCondicion[T <: Participante](participante: T) = ???
     
     def hambreLuegoDePosta = kms
     
