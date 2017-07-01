@@ -81,9 +81,9 @@ case class Vikingo(
   
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
   
-  def mejorMontura(dragones: List[Dragon], posta: Posta) : Try[Jinete] =  {  
+  def mejorMontura(dragones: List[Dragon], posta: Posta) : Option[Jinete] =  {  
      val jinetes = posiblesJinetes(dragones)
-     Try(posta.empezarPosta(jinetes).head)
+     posta.empezarPosta(jinetes).headOption
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {

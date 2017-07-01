@@ -6,14 +6,14 @@ class Dragon(
      velocidadBase : Int = 60,
      danioBase: Int,
      pesoBase : Int,
-     requisitos : List[RequisitoMontura] = null
+     requisitos : List[RequisitoMontura] = List()
 ){
   def danio = danioBase
 	def velocidad : Int = this.velocidadBase - this.pesoBase
 	def capacidadDeCarga =  0.2 * pesoBase
 
 	
-	def cumpleRequisitoBasico(vikingo:Vikingo) = capacidadDeCarga >= vikingo.peso // o mejor lo meto en List[Requistos]??
+	def cumpleRequisitoBasico(vikingo:Vikingo) = capacidadDeCarga >= vikingo.peso 
 	def cumpleRequisitos(vikingo: Vikingo) = requisitos.forall(requisito => requisito.apply(vikingo, this))
   def puedeSerMontadoPor(vikingo : Vikingo) = cumpleRequisitoBasico(vikingo) && cumpleRequisitos(vikingo)
 

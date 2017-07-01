@@ -38,6 +38,6 @@ class MonturaTest {
   
   @Test
   def noHayMejorMonturaParaAstrid(){
-    assertTrue(Astrid.mejorMontura(List(), new Combate(0)).isFailure)
+    assertTrue(Astrid.mejorMontura(List(), new Combate(0)).isEmpty)
   }
 }

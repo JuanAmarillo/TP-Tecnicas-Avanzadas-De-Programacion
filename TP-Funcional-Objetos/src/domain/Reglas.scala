@@ -23,8 +23,8 @@ abstract class Reglas {
       usarJinete(mejorMontura.get)
   }
   
-  def esMejorSinMontura(vikingo: Vikingo, jinete: Try[Jinete], posta: Posta) =
-      jinete.isFailure || vikingo.esMejorQue(jinete.get, posta) 
+  def esMejorSinMontura(vikingo: Vikingo, jinete: Option[Jinete], posta: Posta) =
+      jinete.isEmpty || vikingo.esMejorQue(jinete.get, posta) 
   
    
   def usarJinete(jinete : Jinete): Jinete = {
@@ -103,7 +103,7 @@ case object Equipos extends Estandar{
   }
   
   def vikingosDelEquipo(vikingos: List[Vikingo],equipo : Int) = 
-    vikingos.filter(vikingo => vikingo.equipo == equipo)
+    vikingos.filter(_.equipo == equipo)
 
     
 }

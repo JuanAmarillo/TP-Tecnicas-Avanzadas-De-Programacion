@@ -10,6 +10,9 @@ package object domain {
   type RequisitoVeto = (Dragon) => Boolean
   val masDeCienDeAtaque: RequisitoVeto = dragon => dragon.danio > 100
   
+  type RequisitoCarrera = (Participante) => Boolean
+  
+  
   val Hacha   = Arma(30,0,10)
   val Maza    = Arma(100,0,40)
   val SistemaDeVuelo   = Arma(2,30,5)
@@ -23,7 +26,7 @@ package object domain {
   
   val Chimuelo = FuriaNocturna(100,List(tiene(SistemaDeVuelo)))
   val Slifer   = NadderMortifero(List(vanidoso))
-  val DragonPesado = Gronckle(1000,100, List(vanidoso)) //no deberia pasarle esto
+  val DragonPesado = Gronckle(1000,100, List()) //no deberia pasarle esto
   
   val participantesInvierno = List(Hipo,Astrid,Patan,Patapez)
   val dragones = List(Slifer,Chimuelo,DragonPesado)  

@@ -53,7 +53,7 @@ package domain
   }
   case class Carrera(kms: Int) extends Posta {
     
-    def cumpleCondicion[T <: Participante](participante: T) = ???
+    def cumpleCondicion[T <: Participante](participante: T) = ??? //requisito.apply(participante)
     
     def hambreLuegoDePosta = kms
     
