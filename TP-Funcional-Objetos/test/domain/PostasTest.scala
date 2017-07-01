@@ -5,10 +5,10 @@ import org.junit.Test
 
 class PostasTest {
      
-  @Test
-  def patanEsMejorQueAstridEnCombate(){
-    assertTrue(Patan.esMejorQue(Astrid, Combate(0)))
-  }
+	@Test
+	def patanEsMejorQueAstridEnCombate(){
+		assertTrue(Patan.esMejorQue(Astrid, Combate(0)))
+	}
   
   @Test
   def patapezParticipaEnCombate(){
@@ -18,8 +18,14 @@ class PostasTest {
   
   @Test
   def patanGanaLaPostaDeCombate(){
-    val PatanDespuesDeCombate = Vikingo(nivelDeHambre = 10,item = Maza)
+    val PatanDespuesDeCombate = Patan.copy(nivelDeHambre = 10)
     assertTrue(Combate(0).participar(participantesInvierno).head.equals(PatanDespuesDeCombate))
+  }
+  
+  @Test
+  def PatanGanaLaPostaDePesca(){
+    val PatanDespuesDePesca = Patan.copy(nivelDeHambre = 5)
+    assertEquals(Pesca(0).participar(participantesInvierno).head,PatanDespuesDePesca)
   }
   
   @Test

@@ -8,7 +8,7 @@ case class Torneo(
 		)
 {
   
-  def competir() {
+  def competir : Option[Participante] = {
     reglas.decidirGanador(jugarPostas)
   }
   
