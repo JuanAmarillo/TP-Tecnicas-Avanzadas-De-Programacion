@@ -2,39 +2,33 @@ package domain
 
 import scala.util.Try
 
-abstract class Reglas {
-  
-  var dragonesDisponibles: List[Dragon] = List()
-  
-  def eleccionDeDragones(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) : List[Participante] = {
-    dragonesDisponibles = dragones
-    elegirDragonesDisponibles(vikingos, posta)
+abstract class Reglas { 
+
+  def eleccionDeDragones(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) = {
+    vikingos.foldLeft((List(): List[Participante],dragones)){ (coso,vikingo) =>
+       elegirFormaDeJugar(coso,vikingo,posta)
+    }._1
   }
   
-  def elegirDragonesDisponibles(vikingos: List[Vikingo],posta:Posta) : List[Participante] = {
-    vikingos.map(vikingo => elegirFormaDeJugar(vikingo,posta))
-  }
-  
-  def elegirFormaDeJugar(vikingo:Vikingo, posta:Posta) : Participante = {
-    val mejorMontura = vikingo.mejorMontura(dragonesDisponibles,posta)
-    if(esMejorSinMontura(vikingo,mejorMontura,posta)) 
-      vikingo
+  def elegirFormaDeJugar(coso : Tuple2[List[Participante],List[Dragon]], vikingo: Vikingo, posta:Posta) = {
+    val mejorMontura = vikingo.mejorMontura(coso._2, posta)
+    if(esMejorSinMontura(vikingo,mejorMontura,posta))
+      (coso._1 :+ vikingo,coso._2)
     else
-      usarJinete(mejorMontura.get)
+      usarJinete(mejorMontura.get,coso)
   }
   
   def esMejorSinMontura(vikingo: Vikingo, jinete: Option[Jinete], posta: Posta) =
       jinete.isEmpty || vikingo.esMejorQue(jinete.get, posta) 
   
    
-  def usarJinete(jinete : Jinete): Jinete = {
-    actualizarDragonesDisponibles(jinete.dragon)
-    jinete
+  def usarJinete(jinete : Jinete,coso : Tuple2[List[Participante], List[Dragon]]) = {
+    (coso._1 :+ jinete,actualizarDragonesDisponibles(jinete.dragon,coso._2))
   }
   
-  def actualizarDragonesDisponibles(dragonASacar: Dragon){
-    dragonesDisponibles = dragonesDisponibles.filter(_ != dragonASacar)
-  }
+  def actualizarDragonesDisponibles(dragonASacar: Dragon, dragonesDisponibles: List[Dragon]) =
+    dragonesDisponibles.filter(_ != dragonASacar)
+  
   
 	def quienesAvanzan(vikingos: List[Vikingo]) : List[Vikingo]
   
@@ -69,9 +63,8 @@ case object Inverso extends Estandar{
 }
 case class Veto(condicion : RequisitoVeto ) extends Estandar{
   
-  override def elegirDragonesDisponibles(vikingos : List[Vikingo], posta : Posta): List[Participante] = {
-    dragonesDisponibles = restringirDragones(dragones)
-    super.elegirDragonesDisponibles(vikingos,posta)
+  override def eleccionDeDragones(vikingos : List[Vikingo], posta : Posta, dragones: List[Dragon]): List[Participante] = {
+    super.eleccionDeDragones(vikingos,posta,restringirDragones(dragones))
   }
   
   def restringirDragones(dragones: List[Dragon]) : List[Dragon] =
@@ -80,8 +73,8 @@ case class Veto(condicion : RequisitoVeto ) extends Estandar{
 }
 case object Handicap extends Estandar{
   
-  override def elegirDragonesDisponibles(vikingos: List[Vikingo],posta:Posta) : List[Participante] = {
-   super.elegirDragonesDisponibles(vikingos.reverse, posta).reverse
+  override def eleccionDeDragones(vikingos : List[Vikingo], posta : Posta, dragones: List[Dragon]): List[Participante] = {
+   super.eleccionDeDragones(vikingos.reverse, posta,dragones).reverse
   }
 }
 

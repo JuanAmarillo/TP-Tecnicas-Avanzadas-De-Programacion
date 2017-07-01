@@ -43,7 +43,6 @@ class PostasTest {
     val jineteHipo = Jinete(Hipo,Chimuelo)
     val jineteHipoLuegoDeCarrera = jineteHipo.copy(vikingo = Hipo.copy(nivelDeHambre = 5))
     assertEquals(new Carrera(10).participar(List(jineteHipo)).head,jineteHipoLuegoDeCarrera)
-    
   }
    
 }
