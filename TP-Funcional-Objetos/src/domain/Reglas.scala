@@ -76,11 +76,13 @@ case class Veto(condicion : RequisitoVeto ) extends Estandar{
   
   def restringirDragones(dragones: List[Dragon], condicion: RequisitoVeto) : List[Dragon] =
     dragones.filter(dragon => condicion.apply(dragon))
-
-  
   
 }
-case object Handicap extends Estandar
+case object Handicap extends Estandar{
+  override def elegirDragonesDisponibles(vikingos: List[Vikingo],posta:Posta) : List[Participante] = {
+   super.elegirDragonesDisponibles(vikingos.reverse, posta).reverse
+  }
+}
 
 //case class PorEquipos() extends Reglas
 
