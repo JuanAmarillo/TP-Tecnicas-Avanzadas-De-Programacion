@@ -7,6 +7,8 @@ package object domain {
   val tiene: Item => RequisitoMontura = item => (vikingo,_) => vikingo.item == item
   val pesado: Int => RequisitoMontura = peso => (vikingo,_) => vikingo.peso < peso
   
+  type RequisitoVeto = (Dragon) => Boolean
+  
   val Hacha   = Arma(30,0,10)
   val Maza    = Arma(100,0,40)
   val SistemaDeVuelo   = Arma(2,30,5)
