@@ -65,16 +65,16 @@ case object Inverso extends Estandar{
     vikingos.takeRight(laMitad(vikingos))
     
   override def decidirGanador(vikingos:List[Vikingo]) =
-    decidirGanador(vikingos.reverse)
+    super.decidirGanador(vikingos.reverse)
   
 }
 case class Veto(condicion : RequisitoVeto ) extends Estandar{
   override def elegirDragonesDisponibles(vikingos : List[Vikingo], posta : Posta): List[Participante] = {
-    dragonesDisponibles = restringirDragones(dragones,condicion)
+    dragonesDisponibles = restringirDragones(dragones)
     super.elegirDragonesDisponibles(vikingos,posta)
   }
   
-  def restringirDragones(dragones: List[Dragon], condicion: RequisitoVeto) : List[Dragon] =
+  def restringirDragones(dragones: List[Dragon]) : List[Dragon] =
     dragones.filter(dragon => condicion.apply(dragon))
   
 }

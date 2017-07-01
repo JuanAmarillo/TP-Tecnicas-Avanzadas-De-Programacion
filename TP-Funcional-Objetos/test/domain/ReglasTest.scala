@@ -7,7 +7,7 @@ class ReglasTest {
 	val estandar = new Estandar
   
 	@Test
-	def eleccionDeDragonesTest(){
+	def eleccionDeDragonesEnCombateTest(){
     val HipoJinete    = Jinete(Hipo,Slifer)
     val AstridJinete  = Jinete(Astrid,DragonPesado)
     val ParticipantesListos = List(HipoJinete,AstridJinete,Patan,Patapez)
@@ -43,7 +43,29 @@ class ReglasTest {
 	}
 	
 	@Test
-	def porInversoTest(){
+	def porInversoAvanzanPatanYPatapezTest(){
 	  assertEquals(Inverso.quienesAvanzan(participantesInvierno), List(Patan,Patapez))
 	}
+	
+	@Test
+	def porInversoGanaPatapezTest(){
+	  assertEquals(Inverso.decidirGanador(participantesInvierno).get,Patapez)
+	}
+	
+	@Test
+	def restringirDragonesPorVetoConMasDeCienDeAtaqueTest(){
+	  assertEquals(Veto(masDeCienDeAtaque).restringirDragones(dragones),List(Slifer,DragonPesado))
+	}
+	
+	@Test
+	def seEligenLosDragonesPorHandicapEnCombateTest(){
+		val PatapezJinete  = Jinete(Patapez,Slifer)
+		val AstridJinete   = Jinete(Astrid,DragonPesado)
+    val HipoJinete     = Jinete(Hipo,Chimuelo)
+    val ParticipantesListos = List(HipoJinete,AstridJinete,Patan,PatapezJinete)
+	  
+	  assertEquals(Handicap.eleccionDeDragones(participantesInvierno, Combate(), dragones),ParticipantesListos)
+	}
+	
+	
 }
