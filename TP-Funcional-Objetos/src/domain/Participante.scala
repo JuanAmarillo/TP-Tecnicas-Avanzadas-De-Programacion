@@ -17,6 +17,9 @@ trait Participante{
   def esMejorQue(participante:Participante, posta:Posta) = posta.esMejorQue(this,participante)
   
 }
+
+//case class Equipo(vikingos: List[Vikingo])
+
 case class Jinete(
     vikingo: Vikingo,
     dragon : Dragon
@@ -51,7 +54,8 @@ case class Vikingo(
       pesoBase: Int = 60,
       nivelDeHambre: Int = 0,
       item: Item,
-      efectos : EfectosPosta = EfectosPosta()
+      efectos : EfectosPosta = EfectosPosta(),
+      equipo : Int = 0
 ) extends Participante
 { 
   

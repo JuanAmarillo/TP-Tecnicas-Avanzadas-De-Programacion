@@ -1,14 +1,14 @@
 package domain 
 
 case class Torneo(
-		  postas: List[Posta],
+		  postas:   List[Posta],
 		  vikingos: List[Vikingo],
 		  dragones: List[Dragon],
 		  reglas : Reglas
 		)
 {
   
-  def competir : Option[Participante] = {
+  def competir : Option[Vikingo] = {
     reglas.decidirGanador(jugarPostas)
   }
   

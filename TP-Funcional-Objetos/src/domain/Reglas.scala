@@ -40,6 +40,7 @@ abstract class Reglas {
   
 	def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo]
 }
+
 class Estandar extends Reglas{
   
   def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo] = {
@@ -58,6 +59,7 @@ case class Eliminacion(siguen:Int) extends Estandar{
     
 }
 case object Inverso extends Estandar{
+  
   override def quienesAvanzan(vikingos: List[Vikingo]) =
     vikingos.takeRight(laMitad(vikingos))
     
@@ -66,6 +68,7 @@ case object Inverso extends Estandar{
   
 }
 case class Veto(condicion : RequisitoVeto ) extends Estandar{
+  
   override def elegirDragonesDisponibles(vikingos : List[Vikingo], posta : Posta): List[Participante] = {
     dragonesDisponibles = restringirDragones(dragones)
     super.elegirDragonesDisponibles(vikingos,posta)
@@ -76,12 +79,34 @@ case class Veto(condicion : RequisitoVeto ) extends Estandar{
   
 }
 case object Handicap extends Estandar{
+  
   override def elegirDragonesDisponibles(vikingos: List[Vikingo],posta:Posta) : List[Participante] = {
    super.elegirDragonesDisponibles(vikingos.reverse, posta).reverse
   }
 }
 
-//case class PorEquipos() extends Reglas
+case object Equipos extends Estandar{
+  override def decidirGanador(vikingos:List[Vikingo]) : Option[Vikingo] = {
+    val equipoGanador = mejorEquipo(reOrganizarEnEquipos(vikingos))
+    super.decidirGanador(equipoGanador)
+  }
+  
+  def mejorEquipo(equipos: List[List[Vikingo]])  = 
+    equipos.sortWith((unEquipo,otroEquipo) => unEquipo.size >= otroEquipo.size).head
+  
+  
+  def reOrganizarEnEquipos(vikingos:List[Vikingo]) =
+		  equipos(vikingos).map(equipo => vikingosDelEquipo(vikingos,equipo))
+		  
+  def equipos(vikingos: List[Vikingo]) : List[Int] = {
+    vikingos.map(_.equipo).distinct
+  }
+  
+  def vikingosDelEquipo(vikingos: List[Vikingo],equipo : Int) = 
+    vikingos.filter(vikingo => vikingo.equipo == equipo)
+
+    
+}
 
 
 
