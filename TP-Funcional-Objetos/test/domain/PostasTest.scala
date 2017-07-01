@@ -32,5 +32,18 @@ class PostasTest {
   def combateSinParticipantes(){
     assertTrue(new Combate(0).participar(List()).isEmpty)
   }
+  
+  @Test
+  def vikingosNoPuedenJugarCarrera(){
+    assertTrue(new Carrera(10).participar(participantesInvierno).isEmpty)
+  }
+  
+  @Test
+  def jineteHipoJuegaCarrera(){
+    val jineteHipo = Jinete(Hipo,Chimuelo)
+    val jineteHipoLuegoDeCarrera = jineteHipo.copy(vikingo = Hipo.copy(nivelDeHambre = 5))
+    assertEquals(new Carrera(10).participar(List(jineteHipo)).head,jineteHipoLuegoDeCarrera)
+    
+  }
    
 }
