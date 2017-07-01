@@ -42,7 +42,7 @@ package domain
    def esMejorQue(mejor: Participante, peor: Participante) = mejor.capacidadDeCarga > peor.capacidadDeCarga 
    
   }
-  case class Combate(barbarosidadMin: Int)      extends Posta {
+  case class Combate(barbarosidadMin: Int = 0)      extends Posta {
     
     def cumpleCondicion[T <: Participante](participante: T) = participante.barbarosidad > barbarosidadMin
     

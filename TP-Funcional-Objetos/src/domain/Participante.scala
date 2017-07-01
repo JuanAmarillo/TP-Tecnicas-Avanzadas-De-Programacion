@@ -76,10 +76,10 @@ case class Vikingo(
   def estaHambriento = nivelDeHambre >= efectos.maxHambrePermitida
   
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
- 
-  def mejorMontura(dragones: List[Dragon], posta: Posta) : Jinete =  {  
+  
+  def mejorMontura(dragones: List[Dragon], posta: Posta) : Try[Jinete] =  {  
      val jinetes = posiblesJinetes(dragones)
-     posta.empezarPosta(jinetes).head
+     Try(posta.empezarPosta(jinetes).head)
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {

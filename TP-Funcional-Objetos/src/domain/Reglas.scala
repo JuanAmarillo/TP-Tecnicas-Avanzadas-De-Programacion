@@ -1,5 +1,7 @@
 package domain
 
+import scala.util.Try
+
 abstract class Reglas {
   
   var dragonesDisponibles: List[Dragon] = List()
@@ -14,10 +16,12 @@ abstract class Reglas {
     if(esMejorSinMontura(vikingo,mejorMontura,posta)) 
       vikingo
     else
-      usarJinete(mejorMontura)
+      usarJinete(mejorMontura.get)
   }
   
-  def esMejorSinMontura(vikingo: Vikingo, jinete: Jinete, posta: Posta) = vikingo.esMejorQue(jinete, posta)
+  def esMejorSinMontura(vikingo: Vikingo, jinete: Try[Jinete], posta: Posta) =
+      jinete.isFailure || vikingo.esMejorQue(jinete.get, posta) 
+  
    
   def usarJinete(jinete : Jinete): Jinete = {
     actualizarDragonesDisponibles(jinete.dragon)
@@ -32,7 +36,7 @@ abstract class Reglas {
   
 	def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo]
 }
-trait Estandar extends Reglas{
+class Estandar extends Reglas{
   
   def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo] = {
     if(vikingos.isEmpty)

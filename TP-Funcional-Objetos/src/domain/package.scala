@@ -9,7 +9,7 @@ package object domain {
   
   val Hacha   = Arma(30,0,10)
   val Maza    = Arma(100,0,40)
-  val SistemaDeVuelo   = Arma(0,30,5)
+  val SistemaDeVuelo   = Arma(2,30,5)
   val ComestibleHambre = Consumible(4)
   
   val Hipo    = Vikingo(item = SistemaDeVuelo)
@@ -20,10 +20,12 @@ package object domain {
   
   val Chimuelo = FuriaNocturna(100,List(tiene(SistemaDeVuelo)))
   val Slifer   = NadderMortifero(List(vanidoso))
+  val DragonPesado = Gronckle(1000,100, List(vanidoso)) //no deberia pasarle esto
   
   val participantesInvierno = List(Hipo,Astrid,Patan,Patapez)
-  val dragones = List(Chimuelo,Slifer)  
+  val dragones = List(Slifer,Chimuelo,DragonPesado)  
   
   //val FestivalDeInvierno = Torneo(List(Pesca,Combate,Carrera),participantesInvierno)
       
 }
+

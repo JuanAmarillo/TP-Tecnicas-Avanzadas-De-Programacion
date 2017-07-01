@@ -21,5 +21,10 @@ class PostasTest {
     val PatanDespuesDeCombate = Vikingo(nivelDeHambre = 10,item = Maza)
     assertTrue(Combate(0).participar(participantesInvierno).head.equals(PatanDespuesDeCombate))
   }
+  
+  @Test
+  def combateSinParticipantes(){
+    assertTrue(new Combate(0).participar(List()).isEmpty)
+  }
    
 }
