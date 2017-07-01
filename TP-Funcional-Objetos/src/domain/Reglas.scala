@@ -43,10 +43,7 @@ abstract class Reglas {
 class Estandar extends Reglas{
   
   def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo] = {
-    if(vikingos.isEmpty)
-      None
-    else
-      Some(vikingos.head)
+    vikingos.headOption
   }
   
   def quienesAvanzan(vikingos: List[Vikingo]) =
