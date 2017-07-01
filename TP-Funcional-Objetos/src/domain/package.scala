@@ -10,8 +10,6 @@ package object domain {
   type RequisitoVeto = (Dragon) => Boolean
   val masDeCienDeAtaque: RequisitoVeto = dragon => dragon.danio > 100
   
-  type RequisitoCarrera = (Participante) => Boolean
-  
   
   val Hacha   = Arma(30,0,10)
   val Maza    = Arma(100,0,40)

@@ -1,8 +1,6 @@
 package domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.assertFalse
+import org.junit.Assert._
 import org.junit.Test
 import scala.util.Try
 import scala.util.Success
