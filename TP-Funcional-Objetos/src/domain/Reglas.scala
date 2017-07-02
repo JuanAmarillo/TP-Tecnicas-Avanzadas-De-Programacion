@@ -5,28 +5,32 @@ import scala.util.Try
 abstract class Reglas { 
 
   def eleccionDeDragones(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) = {
-    vikingos.foldLeft((List(): List[Participante],dragones)){ (coso,vikingo) =>
-       elegirFormaDeJugar(coso,vikingo,posta)
+    vikingos.foldLeft((List(): List[Participante],dragones)){ (participantesYDragones,vikingo) =>
+       elegirFormaDeJugar(participantesYDragones._1,participantesYDragones._2,vikingo,posta)
     }._1
   }
   
-  def elegirFormaDeJugar(coso : Tuple2[List[Participante],List[Dragon]], vikingo: Vikingo, posta:Posta) = {
-    val mejorMontura = vikingo.mejorMontura(coso._2, posta)
+  def elegirFormaDeJugar(participantesEnJuego:List[Participante],dragonesDisponibles:List[Dragon],vikingo:Vikingo,posta:Posta) = {
+    val mejorMontura = vikingo.mejorMontura(dragonesDisponibles, posta)
     if(esMejorSinMontura(vikingo,mejorMontura,posta))
-      (coso._1 :+ vikingo,coso._2)
+      participaComoVikingo(participantesEnJuego, dragonesDisponibles, vikingo)
     else
-      usarJinete(mejorMontura.get,coso)
+      participaComoJinete(participantesEnJuego, dragonesDisponibles, mejorMontura.get)
   }
   
   def esMejorSinMontura(vikingo: Vikingo, jinete: Option[Jinete], posta: Posta) =
       jinete.isEmpty || vikingo.esMejorQue(jinete.get, posta) 
   
+  def participaComoVikingo(participantesEnJuego : List[Participante], dragonesDisponibles: List[Dragon], vikingo : Vikingo) =
+    (actualizarParticipantes(vikingo, participantesEnJuego),dragonesDisponibles)
    
-  def usarJinete(jinete : Jinete,coso : Tuple2[List[Participante], List[Dragon]]) = {
-    (coso._1 :+ jinete,actualizarDragonesDisponibles(jinete.dragon,coso._2))
-  }
-  
-  def actualizarDragonesDisponibles(dragonASacar: Dragon, dragonesDisponibles: List[Dragon]) =
+  def participaComoJinete(participantesEnJuego : List[Participante], dragonesDisponibles: List[Dragon], jinete : Jinete) =
+    (actualizarParticipantes(jinete, participantesEnJuego),actualizarDragones(jinete.dragon,dragonesDisponibles))
+      
+  def actualizarParticipantes(participante: Participante, participantesEnJuego : List[Participante]) =
+    participantesEnJuego :+ participante
+      
+  def actualizarDragones(dragonASacar: Dragon, dragonesDisponibles: List[Dragon]) =
     dragonesDisponibles.filter(_ != dragonASacar)
   
   
