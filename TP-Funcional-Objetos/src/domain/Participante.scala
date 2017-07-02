@@ -18,9 +18,14 @@ trait ParticipantePosta{
   
 }
 
-trait ParticipanteTorneo{}
+trait ParticipanteTorneo{
+  def cuantosSon : Int
+}
 
-case class Equipo(vikingos: List[Vikingo]) extends ParticipanteTorneo
+case class Equipo(vikingos: List[Vikingo]) extends ParticipanteTorneo{
+  
+  def cuantosSon = vikingos.size
+}
 
 case class Jinete(
     vikingo: Vikingo,
@@ -92,6 +97,7 @@ case class Vikingo(
       dragon <- dragones if dragon.puedeSerMontadoPor(this)    
     } yield montar(dragon).get
 
+  def cuantosSon = 1
 }
 
 case class EfectosPosta(maxHambrePermitida: Int = 100, aumentoDeHambre: Int = 1)

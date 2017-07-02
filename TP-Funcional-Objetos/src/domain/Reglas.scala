@@ -36,7 +36,7 @@ abstract class Reglas {
   
 	def quienesAvanzan(vikingos: List[Vikingo]) : List[Vikingo]
   
-	def decidirGanador[T <: ParticipanteTorneo](participantes: List[T]) : Option[T]
+	def decidirGanador(participantes: List[ParticipanteTorneo]) : Option[ParticipanteTorneo]
 }
 
 class Estandar extends Reglas{
@@ -83,16 +83,9 @@ case object Handicap extends Estandar{
 
 case object Equipos extends Estandar{
   
- override def decidirGanador(participantes:List[Equipo]) : Option[Vikingo] = {
-    val equipoGanador = mejorEquipo(participantes)
-    super.decidirGanador(equipoGanador)
-  }
- 
- def mejorEquipo(participantes: List[Equipo]) : List[Vikingo] = {
-   participantes.sortWith((unParticipante, otroParticipante) => unParticipante.vikingos.size >= otroParticipante.vikingos.size)
-   .head.vikingos
- }
-    
+ override def decidirGanador(participantes:List[ParticipanteTorneo]) : Option[ParticipanteTorneo] = 
+     participantes.sortWith((unParticipante, otroParticipante) => unParticipante.cuantosSon >= otroParticipante.cuantosSon)
+       .headOption
 }
 
 
