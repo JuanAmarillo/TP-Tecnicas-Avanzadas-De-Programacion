@@ -3,27 +3,29 @@ package domain
 import scala.util.Try
 
 
-trait Participante{
+trait ParticipantePosta{
   def peso : Int
   def barbarosidad : Int
   def capacidadDeCarga : Double
   def danio: Int
   def velocidad: Int
-  def aplicarEfecto(delta : Int) : Participante
+  def aplicarEfecto(delta : Int) : ParticipantePosta
   def estaHambriento : Boolean
-  def terminarPosta: Participante
+  def terminarPosta: ParticipantePosta
   def vikingo: Vikingo
   
-  def esMejorQue(participante:Participante, posta:Posta) = posta.esMejorQue(this,participante)
+  def esMejorQue(participante:ParticipantePosta, posta:Posta) = posta.esMejorQue(this,participante)
   
 }
 
-//case class Equipo(vikingos: List[Vikingo])
+trait ParticipanteTorneo{}
+
+case class Equipo(vikingos: List[Vikingo]) extends ParticipanteTorneo
 
 case class Jinete(
     vikingo: Vikingo,
     dragon : Dragon
-) extends Participante
+) extends ParticipantePosta
 {
   require(dragon.puedeSerMontadoPor(vikingo))
   
@@ -56,7 +58,7 @@ case class Vikingo(
       item: Item,
       efectos : EfectosPosta = EfectosPosta(),
       equipo : Int = 0
-) extends Participante
+) extends ParticipantePosta with ParticipanteTorneo
 { 
   
   def vikingo = this
