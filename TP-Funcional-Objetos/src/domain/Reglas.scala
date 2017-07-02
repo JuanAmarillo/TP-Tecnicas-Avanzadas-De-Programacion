@@ -36,13 +36,13 @@ abstract class Reglas {
   
 	def quienesAvanzan(vikingos: List[Vikingo]) : List[Vikingo]
   
-	def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo]
+	def decidirGanador[T <: ParticipanteTorneo](participantes: List[T]) : Option[T]
 }
 
 class Estandar extends Reglas{
   
-  def decidirGanador(vikingos: List[Vikingo]) : Option[Vikingo] = 
-    vikingos.headOption
+  def decidirGanador(participantes: List[ParticipanteTorneo]) : Option[ParticipanteTorneo] = 
+    participantes.headOption
   
   
   def quienesAvanzan(vikingos: List[Vikingo]) =
@@ -61,8 +61,8 @@ case object Inverso extends Estandar{
   override def quienesAvanzan(vikingos: List[Vikingo]) =
     vikingos.takeRight(laMitad(vikingos))
     
-  override def decidirGanador(vikingos:List[Vikingo]) =
-    super.decidirGanador(vikingos.reverse)
+  override def decidirGanador(participantes:List[ParticipanteTorneo]) =
+    super.decidirGanador(participantes.reverse)
   
 }
 case class Veto(condicion : RequisitoVeto ) extends Estandar{
@@ -82,24 +82,16 @@ case object Handicap extends Estandar{
 }
 
 case object Equipos extends Estandar{
-  override def decidirGanador(vikingos:List[Vikingo]) : Option[Vikingo] = {
-    val equipoGanador = mejorEquipo(reOrganizarEnEquipos(vikingos))
+  
+ override def decidirGanador(participantes:List[Equipo]) : Option[Vikingo] = {
+    val equipoGanador = mejorEquipo(participantes)
     super.decidirGanador(equipoGanador)
   }
-  
-  def mejorEquipo(equipos: List[List[Vikingo]])  = 
-    equipos.sortWith((unEquipo,otroEquipo) => unEquipo.size >= otroEquipo.size).head
-  
-  
-  def reOrganizarEnEquipos(vikingos:List[Vikingo]) =
-		  equipos(vikingos).map(equipo => vikingosDelEquipo(vikingos,equipo))
-		  
-  def equipos(vikingos: List[Vikingo]) : List[Int] = 
-    vikingos.map(_.equipo).distinct
-  
-  def vikingosDelEquipo(vikingos: List[Vikingo],equipo : Int) = 
-    vikingos.filter(_.equipo == equipo)
-
+ 
+ def mejorEquipo(participantes: List[Equipo]) : List[Vikingo] = {
+   participantes.sortWith((unParticipante, otroParticipante) => unParticipante.vikingos.size >= otroParticipante.vikingos.size)
+   .head.vikingos
+ }
     
 }
 
