@@ -23,7 +23,11 @@ trait ParticipanteTorneo{
 }
 
 case class Equipo(vikingos: List[Vikingo]) extends ParticipanteTorneo{
-  
+  def reOrganizate(vikingosGanadores : List[Vikingo]) = {
+    this.copy(
+    vikingos.map(vikingo => vikingosGanadores.filter(vikingoGanador => vikingo == vikingoGanador).headOption)
+      .filter(_.isDefined).map(_.get))
+  }
   def cuantosSon = vikingos.size
 }
 
