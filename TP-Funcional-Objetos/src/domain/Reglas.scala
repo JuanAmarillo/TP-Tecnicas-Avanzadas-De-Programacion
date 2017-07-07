@@ -5,9 +5,13 @@ import scala.util.Try
 abstract class Reglas { 
 
   def eleccionDeDragones(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) = {
-    vikingos.foldLeft((List(): List[ParticipantePosta],dragones)){ (participantesYDragones,vikingo) =>
+    participantesListosYDragonesDisponibles(vikingos, posta, dragones)._1
+  }
+  
+  def participantesListosYDragonesDisponibles(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) = {
+      vikingos.foldLeft((List(): List[ParticipantePosta],dragones)){ (participantesYDragones,vikingo) =>
        elegirFormaDeJugar(participantesYDragones._1,participantesYDragones._2,vikingo,posta)
-    }._1
+    }
   }
   
   def elegirFormaDeJugar(participantesEnJuego:List[ParticipantePosta],dragonesDisponibles:List[Dragon],vikingo:Vikingo,posta:Posta) = {
@@ -86,7 +90,20 @@ case object Equipos extends Estandar{
  override def decidirGanador(participantes:List[ParticipanteTorneo]) : Option[ParticipanteTorneo] = 
      participantes.sortWith((unParticipante, otroParticipante) => unParticipante.cuantosSon >= otroParticipante.cuantosSon)
        .headOption
+       
+ override def quienesAvanzan(vikingos: List[Vikingo]) : List[Equipo]=
+   reOrganizarEnEquipos(super.quienesAvanzan(vikingos))
+ 
+ def reOrganizarEnEquipos(vikingos: List[Vikingo]) =
+   equipos(vikingos).map(equipo => Equipo(vikingosDelEquipo(equipo,vikingos)))
+   
+ def vikingosDelEquipo(equipo : Equipo,vikingos : List[Vikingo]) = 
+   vikingos.filter(_.perteneceA(equipo))
+   
+ def equipos(vikingos : List[Vikingo]) =
+   vikingos.map(_.equipo.get).distinct
 }
+  
 
 
 

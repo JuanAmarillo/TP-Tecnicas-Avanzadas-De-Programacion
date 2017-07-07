@@ -33,7 +33,7 @@ case class Torneo(
 }
 
 sealed trait EstadoTorneo
-case class  EnJuego(participantes : List[ParticipanteTorneo]) extends EstadoTorneo
+case class  EnJuego(participantes : List[ParticipanteTorneo]) extends EstadoTorneo 
 case class  Ganador(participante: ParticipanteTorneo) extends EstadoTorneo
 case object NoHayGanador extends EstadoTorneo
 
