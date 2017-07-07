@@ -24,8 +24,7 @@ case class Torneo(
   def hayMasDeUnVikingo(participantes: List[ParticipanteTorneo]) = participantes.size > 1
   
   def jugarPosta(participantesEnJuego: List[ParticipanteTorneo],posta:Posta) : List[ParticipanteTorneo] = {
-    val vikingosListos = ???
-    val participantesListos = reglas.eleccionDeDragones(vikingosListos,posta,dragones)
+    val participantesListos = reglas.eleccionDeDragones(participantesEnJuego,posta,dragones)
     val ganadores = posta.participar(participantesListos)
     val vikingosReOrganizados = ??? // ganadores.map(_.vikingo)
     reglas.quienesAvanzan(vikingosReOrganizados)
@@ -33,6 +32,9 @@ case class Torneo(
   }
 }
 
-
+sealed trait EstadoTorneo
+case class  EnJuego(participantes : List[ParticipanteTorneo]) extends EstadoTorneo
+case class  Ganador(participante: ParticipanteTorneo) extends EstadoTorneo
+case object NoHayGanador extends EstadoTorneo
 
 
