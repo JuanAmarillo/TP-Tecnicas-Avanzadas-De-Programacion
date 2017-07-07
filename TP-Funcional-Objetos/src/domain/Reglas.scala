@@ -38,7 +38,7 @@ abstract class Reglas {
     dragonesDisponibles.filter(_ != dragonASacar)
   
   
-	def quienesAvanzan(vikingos: List[Vikingo]) : List[Vikingo]
+	def quienesAvanzan(vikingos: List[Vikingo]) : List[ParticipanteTorneo]
   
 	def decidirGanador(participantes: List[ParticipanteTorneo]) : Option[ParticipanteTorneo]
 }
@@ -47,9 +47,8 @@ class Estandar extends Reglas{
   
   def decidirGanador(participantes: List[ParticipanteTorneo]) : Option[ParticipanteTorneo] = 
     participantes.headOption
-  
-  
-  def quienesAvanzan(vikingos: List[Vikingo]) =
+    
+  def quienesAvanzan(vikingos: List[Vikingo]) : List[ParticipanteTorneo]  =
     vikingos.take(laMitad(vikingos))
     
   def laMitad(vikingos: List[Vikingo]) = vikingos.size/2
@@ -91,16 +90,16 @@ case object Equipos extends Estandar{
      participantes.sortWith((unParticipante, otroParticipante) => unParticipante.cuantosSon >= otroParticipante.cuantosSon)
        .headOption
        
- override def quienesAvanzan(vikingos: List[Vikingo]) : List[Equipo]=
+ override def quienesAvanzan(vikingos: List[Vikingo]) : List[ParticipanteTorneo]=
    reOrganizarEnEquipos(super.quienesAvanzan(vikingos))
  
- def reOrganizarEnEquipos(vikingos: List[Vikingo]) =
+ def reOrganizarEnEquipos(vikingos: List[ParticipanteTorneo]) =
    equipos(vikingos).map(equipo => Equipo(vikingosDelEquipo(equipo,vikingos)))
    
  def vikingosDelEquipo(equipo : Equipo,vikingos : List[Vikingo]) = 
    vikingos.filter(_.perteneceA(equipo))
    
- def equipos(vikingos : List[Vikingo]) =
+ def equipos(vikingos : List[ParticipanteTorneo]) =
    vikingos.map(_.equipo.get).distinct
 }
   
