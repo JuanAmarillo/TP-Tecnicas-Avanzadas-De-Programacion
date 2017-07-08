@@ -8,6 +8,7 @@ abstract class Reglas {
     participantesListosYDragonesDisponibles(vikingos, posta, dragones)._1
   }
   
+  
   def participantesListosYDragonesDisponibles(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) = {
       vikingos.foldLeft((List(): List[ParticipantePosta],dragones)){ (participantesYDragones,vikingo) =>
        elegirFormaDeJugar(participantesYDragones._1,participantesYDragones._2,vikingo,posta)
@@ -39,9 +40,24 @@ abstract class Reglas {
     
   def laMitad(vikingos: List[Vikingo]) = vikingos.size/2
     
-	def quienesAvanzan(vikingos: List[Vikingo]) : List[ParticipanteTorneo]
+	def losQueAvanzan(vikingos: List[Vikingo]) = {
+    val vikingosQueAvanzan = quienesAvanzan(vikingos)
+    vikingosQueAvanzan.size match {
+	    case 0 => NoHayGanador
+	    case 1 => Ganador(vikingos.head)
+	    case _ => EnJuego(vikingosQueAvanzan)
+    }
+	}
   
-	def decidirGanador(participantes: List[ParticipanteTorneo]) : Option[ParticipanteTorneo]
+  
+	def elGanador(participantes: EstadoTorneo) : Option[ParticipanteTorneo] = participantes match {
+	  case Ganador(vikingo) =>  Some(vikingo)
+	  case NoHayGanador     =>  None
+	  case EnJuego(participanteEnJuego) => decidirGanador(participanteEnJuego)
+	}
+  
+ def quienesAvanzan(vikingos: List[Vikingo]) : List[ParticipanteTorneo]
+ def decidirGanador(participantes: List[ParticipanteTorneo]) : Option[ParticipanteTorneo]
 }
  
 class Estandar extends Reglas{

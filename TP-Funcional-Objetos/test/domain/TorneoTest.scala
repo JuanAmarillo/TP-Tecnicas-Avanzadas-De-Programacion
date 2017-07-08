@@ -10,7 +10,7 @@ class TorneoTest {
     val torneo = new Torneo(List(new Combate(0)),participantesInvierno,dragones,new Estandar())
     val HipoLuego   = Hipo.copy(nivelDeHambre = 5)
     val AstridLuego = Astrid.copy(nivelDeHambre = 5)
-    assertEquals(torneo.jugarPostas,List(HipoLuego,AstridLuego))
+    assertEquals(torneo.jugarPostas,EnJuego(List(HipoLuego,AstridLuego)))
   }
   
   @Test
@@ -18,7 +18,7 @@ class TorneoTest {
     val torneo = new Torneo(List(new Combate(0), new Pesca(0)),participantesInvierno,dragones,new Estandar())
     val HipoLuego   = Hipo.copy(nivelDeHambre = 10)
     val AstridLuego = Astrid.copy(nivelDeHambre = 10)
-    assertEquals(torneo.jugarPostas,List(HipoLuego))
+    assertEquals(torneo.jugarPostas,Ganador(HipoLuego))
   }
   
   @Test
@@ -37,11 +37,11 @@ class TorneoTest {
   
    @Test
   def porEquiposAvanzanTest(){
-    val PatapezUno = Patapez.copy(equipo = Some("Uno"))
-    val AstridUno  = Astrid.copy(equipo = Some("Uno"))
-    val HipoDos    = Hipo.copy(equipo = Some("Dos"))
-    val PatanDos   = Patan.copy(equipo = Some("Dos"))
-    val PatapezTres   = Patapez.copy(equipo = Some("Tres"))
+    val PatapezUno  = Patapez.copy(equipo = Some("Uno"))
+    val AstridUno   = Astrid.copy(equipo = Some("Uno"))
+    val HipoDos     = Hipo.copy(equipo = Some("Dos"))
+    val PatanDos    = Patan.copy(equipo = Some("Dos"))
+    val PatapezTres = Patapez.copy(equipo = Some("Tres"))
   
     val HipoDosLuego = HipoDos.copy(nivelDeHambre = 10)
     val PatanDosLuego  = PatanDos.copy(nivelDeHambre  = 10)
