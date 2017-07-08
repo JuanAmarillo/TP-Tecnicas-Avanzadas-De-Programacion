@@ -25,7 +25,7 @@ case class Torneo(
   def hayMasDeUnVikingo(participantes: List[ParticipanteTorneo]) = participantes.size > 1
   
   def jugarPosta(participantesEnJuego: List[ParticipanteTorneo],posta:Posta) : EstadoTorneo = {
-    val vikingosListos = prepararParticipantes(participantesEnJuego).flatten
+    val vikingosListos = participantesEnJuego.flatMap(_.miembros) //prepararParticipantes(participantesEnJuego).flatten
     val participantesListos = reglas.eleccionDeDragones(vikingosListos,posta,dragones)
     val ganadores = posta.participar(participantesListos)
     val vikingosGanadores = ganadores.map(_.vikingo)
@@ -33,11 +33,11 @@ case class Torneo(
     
   }
   
-  def prepararParticipantes(participantes: List[ParticipanteTorneo]) : List[List[Vikingo]] = { participantes map {
-    case vikingo: Vikingo => List() :+ vikingo
-    case equipo:  Equipo => equipo.vikingos
-    }
-  }
+//  def prepararParticipantes(participantes: List[ParticipanteTorneo]) : List[List[Vikingo]] = { participantes map {
+//    case vikingo: Vikingo => List() :+ vikingo
+//    case equipo:  Equipo => equipo.vikingos
+//    }
+//  }
 }
 
 sealed trait EstadoTorneo
