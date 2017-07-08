@@ -96,8 +96,8 @@ case class Vikingo(
       dragon <- dragones if dragon.puedeSerMontadoPor(this)    
     } yield montar(dragon).get
     
-  def perteneceA(equipo: Equipo) =
-      this.equipo.get == equipo.nombre
+  def perteneceA(equipo: String) =
+      this.equipo.get == equipo
     
   
   def cuantosSon = 1

@@ -97,9 +97,9 @@ case object Equipos extends Reglas{
    vikingos.take(laMitad(vikingos))
    
  def reOrganizarEnEquipos(vikingos: List[Vikingo]) =
-   equipos(vikingos).map(equipo => Equipo(vikingosDelEquipo(equipo,vikingos)))
+   equipos(vikingos).map(equipo => Equipo(equipo,vikingosDelEquipo(equipo,vikingos)))
    
- def vikingosDelEquipo(equipo : Equipo,vikingos : List[Vikingo]) = 
+ def vikingosDelEquipo(equipo : String,vikingos : List[Vikingo]) = 
    vikingos.filter(_.perteneceA(equipo))
    
  def equipos(vikingos : List[Vikingo]) =
