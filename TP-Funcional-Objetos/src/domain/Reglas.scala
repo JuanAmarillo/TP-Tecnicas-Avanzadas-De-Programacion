@@ -8,7 +8,6 @@ abstract class Reglas {
     participantesListosYDragonesDisponibles(vikingos, posta, dragones)._1
   }
   
-  
   def participantesListosYDragonesDisponibles(vikingos:List[Vikingo],posta:Posta,dragones:List[Dragon]) = {
       vikingos.foldLeft((List(): List[ParticipantePosta],dragones)){ (participantesYDragones,vikingo) =>
        elegirFormaDeJugar(participantesYDragones._1,participantesYDragones._2,vikingo,posta)
@@ -103,6 +102,13 @@ case object Equipos extends Reglas{
    
  def equipos(vikingos : List[Vikingo]) =
    vikingos.map(_.equipo.get).distinct
+   
+ //aca nunca llega
+ def eleccionDeDragones(equipo:List[Equipo],posta:Posta,dragones:List[Dragon]) = {
+    val vikingos = equipo.flatMap(_.vikingos)
+    participantesListosYDragonesDisponibles(vikingos, posta, dragones)
+    
+  }
 }
   
 

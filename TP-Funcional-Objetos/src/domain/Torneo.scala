@@ -25,8 +25,8 @@ case class Torneo(
   def hayMasDeUnVikingo(participantes: List[ParticipanteTorneo]) = participantes.size > 1
   
   def jugarPosta(participantesEnJuego: List[ParticipanteTorneo],posta:Posta) : EstadoTorneo = {
-    val vikingosListos = prepararParticipantes(participantesEnJuego)
-    val participantesListos = reglas.eleccionDeDragones(vikingosListos.flatten,posta,dragones)
+    val vikingosListos = prepararParticipantes(participantesEnJuego).flatten
+    val participantesListos = reglas.eleccionDeDragones(vikingosListos,posta,dragones)
     val ganadores = posta.participar(participantesListos)
     val vikingosGanadores = ganadores.map(_.vikingo)
     reglas.losQueAvanzan(vikingosGanadores)
