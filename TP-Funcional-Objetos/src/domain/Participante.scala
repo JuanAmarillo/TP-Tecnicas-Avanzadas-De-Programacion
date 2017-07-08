@@ -89,7 +89,7 @@ case class Vikingo(
   
   def mejorMontura(dragones: List[Dragon], posta: Posta) : Option[Jinete] =  {  
      val jinetes = posiblesJinetes(dragones)
-      posta.empezarPosta(jinetes).headOption
+      posta.jugarSinAplicarEfectos(jinetes).headOption
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {

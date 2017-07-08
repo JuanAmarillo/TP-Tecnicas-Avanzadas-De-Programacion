@@ -41,13 +41,14 @@ abstract class Reglas {
   def laMitad(vikingos: List[Vikingo]) = vikingos.size/2
     
 	def losQueAvanzan(vikingos: List[Vikingo]) = {
-    val vikingosQueAvanzan = quienesAvanzan(vikingos)
-    vikingosQueAvanzan.size match {
-	    case 0 => NoHayGanador
-	    case 1 => Ganador(vikingos.head)
-	    case _ => EnJuego(vikingosQueAvanzan)
-    }
+    darUnEstadoA(quienesAvanzan(vikingos))
 	}
+  
+  def darUnEstadoA(participantes:List[ParticipanteTorneo]) = participantes.size match {
+    	case 0 => NoHayGanador
+	    case 1 => Ganador(participantes.head)
+	    case _ => EnJuego(participantes)
+  }
   
   
 	def elGanador(participantes: EstadoTorneo) : Option[ParticipanteTorneo] = participantes match {

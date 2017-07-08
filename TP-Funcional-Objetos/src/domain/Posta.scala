@@ -3,14 +3,14 @@ package domain
   trait Posta{
 	  
     def participar(participantes :List[ParticipantePosta]) : List[ParticipantePosta] =
-      aplicarEfectos(empezarPosta(participantes))
+      aplicarEfectos(jugarSinAplicarEfectos(participantes))
 	  
 	  
 	  def aplicarEfectos(participantes:List[ParticipantePosta]) = 
 	    for{participante <- participantes} yield aplicarEfecto(participante)
 	  
 	  
-    def empezarPosta[T <: ParticipantePosta](participantes: List[T]) =
+    def jugarSinAplicarEfectos[T <: ParticipantePosta](participantes: List[T]) =
       for {
         participante <- ordenarPorMejor(participantes)  if puedeParticipar(participante) 
       }
