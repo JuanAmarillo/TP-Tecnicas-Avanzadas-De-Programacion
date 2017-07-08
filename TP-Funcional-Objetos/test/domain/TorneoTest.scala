@@ -41,13 +41,16 @@ class TorneoTest {
     val AstridUno  = Astrid.copy(equipo = Some("Uno"))
     val HipoDos    = Hipo.copy(equipo = Some("Dos"))
     val PatanDos   = Patan.copy(equipo = Some("Dos"))
+    val HipoTres   = Hipo.copy(equipo = Some("Tres"))
   
     val PatapezUnoLuego = PatapezUno.copy(nivelDeHambre = 6)
     val AstridUnoLuego  = AstridUno.copy(nivelDeHambre  = 5)
     
     val EquipoUno = Equipo("Uno",List(PatapezUno,AstridUno))
-    val EquipoDos = Equipo("Dos",List(HipoDos,PatanDos))
-    val torneo = new Torneo(List(new Combate(0)),List(EquipoUno,EquipoDos),dragones,Equipos)
+    val EquipoDos = Equipo("Dos",List(HipoDos,HipoDos,HipoDos,HipoDos,HipoDos,HipoDos,PatanDos))
+    val EquipoTres= Equipo("Tres",List(HipoTres))
+    
+    val torneo = new Torneo(List(new Combate(0),new Pesca(0)),List(EquipoTres,EquipoDos,EquipoUno),dragones,Equipos)
     assertEquals(torneo.competir.get,Equipo("Uno",List(PatapezUnoLuego,AstridUnoLuego)))
   }
   
