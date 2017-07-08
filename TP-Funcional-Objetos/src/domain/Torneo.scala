@@ -34,7 +34,7 @@ case class Torneo(
   
   def prepararParticipantes(participantes: List[ParticipanteTorneo]) : List[List[Vikingo]] = { participantes map {
     case vikingo: Vikingo => List() :+ vikingo
-    case equipo: Equipo => equipo.vikingos
+    case equipo:  Equipo => equipo.vikingos
     }    
   }
 }

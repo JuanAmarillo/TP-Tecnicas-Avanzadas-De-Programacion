@@ -35,4 +35,20 @@ class TorneoTest {
     assertEquals(torneo.competir.get, HipoLuego)
   }
   
+   @Test
+  def porEquiposAvanzanTest(){
+    val PatapezUno = Patapez.copy(equipo = Some("Uno"))
+    val AstridUno  = Astrid.copy(equipo = Some("Uno"))
+    val HipoDos    = Hipo.copy(equipo = Some("Dos"))
+    val PatanDos   = Patan.copy(equipo = Some("Dos"))
+  
+    val PatapezUnoLuego = PatapezUno.copy(nivelDeHambre = 6)
+    val AstridUnoLuego  = AstridUno.copy(nivelDeHambre  = 5)
+    
+    val EquipoUno = Equipo("Uno",List(PatapezUno,AstridUno))
+    val EquipoDos = Equipo("Dos",List(HipoDos,PatanDos))
+    val torneo = new Torneo(List(new Combate(0)),List(EquipoUno,EquipoDos),dragones,Equipos)
+    assertEquals(torneo.competir.get,Equipo("Uno",List(PatapezUnoLuego,AstridUnoLuego)))
+  }
+  
 }

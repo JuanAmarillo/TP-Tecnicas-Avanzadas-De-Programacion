@@ -67,10 +67,6 @@ class ReglasTest {
 	  assertEquals(Handicap.eleccionDeDragones(participantesInvierno, Combate(), dragones),ParticipantesListos)
 	}
 	
-  @Test
-  def porEquiposAvanzanTest(){
-
-  }
 	
 	
 }
