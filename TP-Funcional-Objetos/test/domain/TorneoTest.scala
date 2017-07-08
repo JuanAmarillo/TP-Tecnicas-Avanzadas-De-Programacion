@@ -34,4 +34,5 @@ class TorneoTest {
     val HipoLuego = Hipo.copy(nivelDeHambre = 10)
     assertEquals(torneo.competir.get, HipoLuego)
   }
+  
 }

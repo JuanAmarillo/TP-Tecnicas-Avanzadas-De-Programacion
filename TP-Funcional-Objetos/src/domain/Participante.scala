@@ -22,7 +22,7 @@ trait ParticipanteTorneo{
   def cuantosSon : Int
 }
 
-case class Equipo(vikingos: List[Vikingo]) extends ParticipanteTorneo{
+case class Equipo( nombre : String , vikingos: List[Vikingo] ) extends ParticipanteTorneo{
   def cuantosSon = vikingos.size
 }
 
@@ -61,7 +61,7 @@ case class Vikingo(
       nivelDeHambre: Int = 0,
       item: Item,
       efectos : EfectosPosta = EfectosPosta(),
-      equipo : Option[Equipo] = None
+      equipo : Option[String] = None
 ) extends ParticipantePosta with ParticipanteTorneo
 { 
   
@@ -89,7 +89,7 @@ case class Vikingo(
   
   def mejorMontura(dragones: List[Dragon], posta: Posta) : Option[Jinete] =  {  
      val jinetes = posiblesJinetes(dragones)
-     posta.empezarPosta(jinetes).headOption
+      posta.empezarPosta(jinetes).headOption
   }
     
   def posiblesJinetes(dragones: List[Dragon]) = for {
@@ -97,7 +97,7 @@ case class Vikingo(
     } yield montar(dragon).get
     
   def perteneceA(equipo: Equipo) =
-      this.equipo.get.vikingos == equipo.vikingos
+      this.equipo.get == equipo.nombre
     
   
   def cuantosSon = 1
