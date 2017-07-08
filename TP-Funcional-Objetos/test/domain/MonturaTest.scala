@@ -23,19 +23,19 @@ class MonturaTest {
   
   @Test
   def mejorMonturaDeHipoParaCombate(){
-    val mejorDragonParaHipo = Hipo.mejorMontura(dragones, new Combate(0)).get.dragon
-    assertEquals(mejorDragonParaHipo, Slifer)
+    val mejorFormaParaHipo = Hipo.mejorForma(dragones, new Combate(0))._1
+    assertEquals(mejorFormaParaHipo, Jinete(Hipo,Slifer))
   }
   
   
   @Test
   def mejorMonturaDeHipoParaPesca(){
-    val mejorDragonParaHipo = Hipo.mejorMontura(dragones, new Pesca(0)).get.dragon
-    assertEquals(mejorDragonParaHipo, DragonPesado)
+    val mejorFormaParaHipo = Hipo.mejorForma(dragones, new Pesca(0))._1
+    assertEquals(mejorFormaParaHipo, Jinete(Hipo,DragonPesado))
   }
   
   @Test
   def noHayMejorMonturaParaAstrid(){
-    assertTrue(Astrid.mejorMontura(List(), new Combate(0)).isEmpty)
+    assertEquals(Astrid.mejorForma(List(), new Combate(0))._1,Astrid)
   }
 }

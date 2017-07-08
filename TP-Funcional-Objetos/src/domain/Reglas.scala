@@ -16,27 +16,9 @@ abstract class Reglas {
   }
   
   def elegirFormaDeJugar(participantesEnJuego:List[ParticipantePosta],dragonesDisponibles:List[Dragon],vikingo:Vikingo,posta:Posta) = {
-    val mejorJinete = vikingo.mejorMontura(dragonesDisponibles, posta)
-    if(esMejorSinMontura(vikingo,mejorJinete,posta))
-      participaComoVikingo(participantesEnJuego, dragonesDisponibles, vikingo)
-    else
-      participaComoJinete(participantesEnJuego, dragonesDisponibles, mejorJinete.get)
+    val mejorforma = vikingo.mejorForma(dragonesDisponibles, posta)
+    (participantesEnJuego:+ mejorforma._1,mejorforma._2)
   }
-  
-  def esMejorSinMontura(vikingo: Vikingo, jinete: Option[Jinete], posta: Posta) =
-      jinete.isEmpty || vikingo.esMejorQue(jinete.get, posta) 
-  
-  def participaComoVikingo(participantesEnJuego : List[ParticipantePosta], dragonesDisponibles: List[Dragon], vikingo : Vikingo) =
-    (actualizarParticipantes(vikingo, participantesEnJuego),dragonesDisponibles)
-   
-  def participaComoJinete(participantesEnJuego : List[ParticipantePosta], dragonesDisponibles: List[Dragon], jinete : Jinete) =
-    (actualizarParticipantes(jinete, participantesEnJuego),actualizarDragones(jinete.dragon,dragonesDisponibles))
-      
-  def actualizarParticipantes(participante: ParticipantePosta, participantesEnJuego : List[ParticipantePosta]) =
-    participantesEnJuego :+ participante
-      
-  def actualizarDragones(dragonASacar: Dragon, dragonesDisponibles: List[Dragon]) =
-    dragonesDisponibles.filter(_ != dragonASacar)
     
   def laMitad(vikingos: List[Vikingo]) = vikingos.size/2
     

@@ -15,6 +15,7 @@ trait ParticipantePosta{
   def vikingo: Vikingo
   
   def esMejorQue(participante:ParticipantePosta, posta:Posta) = posta.esMejorQue(this,participante)
+  def actualizarDragones(dragones: List[Dragon]) :(ParticipantePosta,List[Dragon])
   
 }
 
@@ -49,7 +50,7 @@ case class Jinete(
   
   def estaHambriento = vikingo.estaHambriento
   
-  
+  def actualizarDragones(dragones: List[Dragon]) = (this, dragones.filter(_ != dragon))
   
 }
 
@@ -87,10 +88,13 @@ case class Vikingo(
   
   def montar(unDragon:Dragon) = Try(Jinete(this,unDragon))
   
-  def mejorMontura(dragones: List[Dragon], posta: Posta) : Option[Jinete] =  {  
-     val jinetes = posiblesJinetes(dragones)
-      posta.jugarSinAplicarEfectos(jinetes).headOption
+  def mejorForma(dragones: List[Dragon], posta: Posta) : (ParticipantePosta,List[Dragon])=  {  
+     val participantes = posiblesJinetes(dragones):+ this
+     posta.jugarSinAplicarEfectos(participantes).map(_.actualizarDragones(dragones)).head
   }
+  
+  def actualizarDragones(dragones:List[Dragon]) : (ParticipantePosta,List[Dragon]) =
+    (this,dragones)
     
   def posiblesJinetes(dragones: List[Dragon]) = for {
       dragon <- dragones if dragon.puedeSerMontadoPor(this)    
