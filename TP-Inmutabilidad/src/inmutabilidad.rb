@@ -151,12 +151,16 @@ module Entorno
 
   def has (atributo, valor, &block)
     Triple_igual.new(atributo,valor,block) do |atributo,valor,block2|
-      if self.instance_variable_get("@#{atributo}").instance_eval &block2
-        true
-      else
-        self.instance_variable_get("@#{atributo}") == valor
-      end
+      cumpleLoDelBloque(atributo, block2) || cumpleValor(atributo, valor)
     end
+  end
+
+  def cumpleValor(atributo, valor)
+    self.instance_variable_get("@#{atributo}") == valor
+  end
+
+  def cumpleLoDelBloque(atributo, block2)
+    self.instance_variable_get("@#{atributo}").instance_eval &block2
   end
 
   def _
