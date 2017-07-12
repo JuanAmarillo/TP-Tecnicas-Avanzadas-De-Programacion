@@ -26,7 +26,7 @@ trait ParticipanteTorneo{
 
 case class Equipo( nombre : String , vikingos: List[Vikingo] ) extends ParticipanteTorneo{
   def cuantosSon = vikingos.size
-  def miembros = vikingos
+  def miembros   = vikingos
 }
 
 case class Jinete(

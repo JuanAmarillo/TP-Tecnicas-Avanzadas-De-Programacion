@@ -103,12 +103,6 @@ case object Equipos extends Reglas{
  def equipos(vikingos : List[Vikingo]) =
    vikingos.map(_.equipo.get).distinct
    
- //aca nunca llega
- def eleccionDeDragones(equipo:List[Equipo],posta:Posta,dragones:List[Dragon]) = {
-    val vikingos = equipo.flatMap(_.vikingos)
-    participantesListosYDragonesDisponibles(vikingos, posta, dragones)
-    
-  }
 }
   
 
